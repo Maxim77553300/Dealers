@@ -2,9 +2,12 @@ package com.leverx.dealers.service;
 
 import com.leverx.dealers.dto.AddCommentRequest;
 import com.leverx.dealers.entity.Comment;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Service
 public class CommentServiceImpl implements CommentService{
 
 

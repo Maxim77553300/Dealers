@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.w3c.dom.Text;
 
 import javax.persistence.*;
+import java.awt.*;
 import java.util.Date;
 
 @Entity(name = "comment")
@@ -18,7 +19,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @Column(name = "message")
-    private Text message;
+    private TextArea message;
     @Column(name = "author_id")
     private Integer author_id;
     @Column(name = "created_at")

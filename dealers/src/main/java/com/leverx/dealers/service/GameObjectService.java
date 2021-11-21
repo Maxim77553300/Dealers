@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface GameObjectService {
 
-    GameObject redactGameObject(AddGameObjectRequest addGameObjectRequest);
+    boolean redactGameObject(AddGameObjectRequest addGameObjectRequest);
 
     boolean addGameObject(AddGameObjectRequest addGameObjectRequest);
 

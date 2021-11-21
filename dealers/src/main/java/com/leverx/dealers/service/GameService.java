@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface GameService {
 
-    List<Game> findAllGame(AddGameRequest addGameRequest);
+    List<Game> findAllGame();
 
     boolean addGame(AddGameRequest addGameRequest);
 
-    Game updateGame(AddGameRequest addGameRequest);
+    boolean updateGame(AddGameRequest addGameRequest);
 }

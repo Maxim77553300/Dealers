@@ -1,20 +1,44 @@
 package com.leverx.dealers.controller;
 
-import org.springframework.ui.Model;
+import com.leverx.dealers.dto.AddGameRequest;
+import com.leverx.dealers.dto.ListGameResponse;
+import com.leverx.dealers.entity.Game;
+import com.leverx.dealers.service.GameService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-public class GameControllerImpl implements GameController{
-    @Override
-    public String findAllGame(String gameName, Model model) {
-        return null;
+import java.util.List;
+
+@RestController
+public class GameControllerImpl implements GameController {
+
+
+    GameService gameService;
+
+    public GameControllerImpl(GameService gameService) {
+        this.gameService = gameService;
     }
 
     @Override
-    public String addGame(String gameName, Model model) {
-        return null;
+    @GetMapping("/games")
+    public ListGameResponse findAllGame() {
+        List<Game> allGames = gameService.findAllGame();
+        ListGameResponse listGameResponse = new ListGameResponse();
+        listGameResponse.setListGame(allGames);
+        return listGameResponse;
     }
 
     @Override
-    public String updateGame(String gameName, Model model) {
-        return null;
+    @PostMapping("/games")
+    public ResponseEntity<?> addGame(@RequestBody AddGameRequest addGameRequest) {
+        gameService.addGame(addGameRequest);
+        return ResponseEntity.status(202).build();
+    }
+
+    @Override
+    @PutMapping("/games")
+    public ResponseEntity<?> updateGame(@RequestBody AddGameRequest addGameRequest) {
+        gameService.updateGame(addGameRequest);
+        return ResponseEntity.status(202).build();
     }
 }

@@ -1,12 +1,14 @@
 package com.leverx.dealers.controller;
 
+import com.leverx.dealers.dto.AddGameObjectRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 
 public interface GameObjectController {
 
-    String redactGameObject(String nameGameObject, Model model);
+    ResponseEntity<?> redactGameObject(AddGameObjectRequest addGameObjectRequest);
 
-    String addGameObject(String nameObject,Model model);
+    ResponseEntity<?> addGameObject(AddGameObjectRequest addGameObjectRequest);
 
     String findAllGameObject(String name,Model model);
 
