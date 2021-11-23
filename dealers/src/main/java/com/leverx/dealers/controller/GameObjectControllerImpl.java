@@ -1,12 +1,16 @@
 package com.leverx.dealers.controller;
 
 import com.leverx.dealers.dto.AddGameObjectRequest;
+import com.leverx.dealers.dto.ListCommentResponse;
+import com.leverx.dealers.dto.ListGameObjectResponse;
+import com.leverx.dealers.entity.Comment;
+import com.leverx.dealers.entity.GameObject;
 import com.leverx.dealers.service.GameObjectService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -29,18 +33,33 @@ public class GameObjectControllerImpl implements GameObjectController {
         return ResponseEntity.status(202).build();
     }
 
+
+    @GetMapping("/gameobjects")
     @Override
-    public String findAllGameObject(String name, Model model) {
-        return null;
+    public ListGameObjectResponse findAllGameObject() {
+        List<GameObject> gameObjects = gameObjectService.findAllGameObject();
+        ListGameObjectResponse listGameObjectResponse = new ListGameObjectResponse();
+        listGameObjectResponse.setListGameObject(gameObjects);
+        return listGameObjectResponse;
     }
 
+
+    @GetMapping("/comments")
     @Override
-    public String findAllPostsAuthor(String nameAuthor, Model model) {
-        return null;
+    public ListCommentResponse findAllPostsAuthor(AddGameObjectRequest addGameObjectRequest) {
+        List<Comment> allGameObjectCommentByAuthor = gameObjectService.getListCommentsOfAuthor();
+        ListCommentResponse listCommentResponse = new ListCommentResponse();
+        listCommentResponse.setListComment(allGameObjectCommentByAuthor);
+
+        return listCommentResponse;
     }
 
+
+    @PostMapping("/gameobjects")
     @Override
-    public String deleteGameObject(String nameGAmeObject, Model model) {
-        return null;
+    public ResponseEntity<?> deleteGameObject(@RequestBody AddGameObjectRequest addGameObjectRequest) {
+        gameObjectService.deleteGameObject(addGameObjectRequest);
+        return ResponseEntity.status(202).build();
+
     }
 }

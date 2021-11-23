@@ -42,8 +42,8 @@ public class GameObjectServiceImpl implements GameObjectService {
     }
 
     @Override
-    public List<GameObject> findAllGameObject(AddGameObjectRequest addGameObjectRequest) {
-        return null;
+    public List<GameObject> findAllGameObject() {
+        return gameObjectRepository.findAll();
     }
 
     @Override
@@ -51,9 +51,13 @@ public class GameObjectServiceImpl implements GameObjectService {
         return null;
     }
 
+
     @Override
-    public boolean deleteGameObject(AddGameObjectRequest addGameObjectRequest) {
-        return false;
+    public String deleteGameObject(AddGameObjectRequest addGameObjectRequest) {
+        String name = addGameObjectRequest.getTitle();
+        gameObjectRepository.deleteById(addGameObjectRequest.getId());
+
+        return "Add was " + name + " removed ";
     }
 
     private GameObject mapGameObjectToRequest(AddGameObjectRequest addGameObjectRequest) {

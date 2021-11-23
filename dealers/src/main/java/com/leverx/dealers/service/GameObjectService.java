@@ -13,9 +13,9 @@ public interface GameObjectService {
 
     boolean addGameObject(AddGameObjectRequest addGameObjectRequest);
 
-    List<GameObject> findAllGameObject(AddGameObjectRequest addGameObjectRequest);
+    List<GameObject> findAllGameObject();
 
     List<Comment> getListCommentsOfAuthor();
 
-    boolean deleteGameObject(AddGameObjectRequest addGameObjectRequest);
+    String deleteGameObject(AddGameObjectRequest addGameObjectRequest);
 }
