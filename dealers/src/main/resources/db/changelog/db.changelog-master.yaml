@@ -1,0 +1,83 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-master.yaml
+  - changeSet:
+      id: 3
+      author: dealer
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+              - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  name: role
+                  type: varchar(255)
+
+      - changeSet:
+          id: 4
+          author: dealer
+          comment: "Create admin user"
+          changes:
+            - insert:
+                tableName: user
+                columns:
+                  - column:
+                      name: first_name
+                      value: "admin"
+                  - column:
+                      name: last_name
+                      value: "SS"
+                  - column:
+                      name: password
+                      value: "admin"
+                  - column:
+                      name: email
+                      value: "admin@server.com"
+                  - column:
+                      name: created_at
+                      value: 2009-10-21
+            - insert:
+                tableName: user
+                columns:
+                  - column:
+                      name: first_name
+                      value: "guest"
+                  - column:
+                      name: password
+                      value: "guest"
+                  - column:
+                      name: email
+                      value: "guest@server.com"
+                  - column:
+                      name: role
+                      value: "Admin"
+
+          rollback:
+            - delete:
+                tableName: user
+                where: username in ('admin', 'guest')
