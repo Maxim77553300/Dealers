@@ -4,17 +4,23 @@ import lombok.Getter;
 import lombok.Setter;
 import org.w3c.dom.Text;
 
-import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
+import java.awt.*;
 import java.util.Date;
 
 @Getter
 @Setter
 public class AddCommentRequest {
 
+    @NotNull
     private Integer id;
-    private Text message;
+    @NotNull
+    private TextArea message;
+    @NotNull
     private Integer author_id;
+    @NotNull
     private Date created_at;
+    @NotNull
     private Boolean approved;
 
 

@@ -24,9 +24,9 @@ public class GameServiceImpl implements GameService {
             gameRepository.save(mapAddGameToRequest(addGameRequest));
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            return false;
         }
-        return false;
+
     }
 
 

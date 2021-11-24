@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CommentService {
 
-    Comment addComment(AddCommentRequest addCommentRequest);
+    boolean addComment(AddCommentRequest addCommentRequest);
 
     List<Comment> findAllCommentByTraderId(AddCommentRequest addCommentRequest);
 

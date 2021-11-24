@@ -1,20 +1,18 @@
 package com.leverx.dealers.controller;
 
-import com.leverx.dealers.entity.User;
-import org.springframework.ui.Model;
-import org.w3c.dom.Text;
-
-import javax.persistence.criteria.CriteriaBuilder;
+import com.leverx.dealers.dto.AddCommentRequest;
+import com.leverx.dealers.dto.ListCommentResponse;
+import org.springframework.http.ResponseEntity;
 
 public interface CommentController {
 
-    String addComment(User user,Text comment, Model model);
+    ResponseEntity<?> addComment(AddCommentRequest addCommentRequest);
 
-    String findAllCommentsTrader(String nameTrader,Model model);
+    ListCommentResponse findAllCommentsTrader(AddCommentRequest addCommentRequest);
 
-    String showComment(User user, Model model);
+    ListCommentResponse showComment(AddCommentRequest addCommentRequest);
 
-    String deleteComment(User user,Integer idComment, Model model);
+    ResponseEntity<?> deleteComment(AddCommentRequest addCommentRequest);
 
-    String updateComment(User user,Integer idComment, Model model);
+    ResponseEntity<?> updateComment(AddCommentRequest addCommentRequest);
 }
