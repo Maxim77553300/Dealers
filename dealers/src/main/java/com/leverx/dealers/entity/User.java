@@ -24,7 +24,7 @@ public class User {
     private String lastName;
     @Column(name = "password")
     private String password;
-    @Column(name = "email")
+    @Column(name = "email",nullable = false)
     private String email;
     @Column(name = "created_at")
     private Date created_at;

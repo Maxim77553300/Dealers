@@ -1,6 +1,7 @@
 package com.leverx.dealers.controller;
 
 import com.leverx.dealers.dto.AddGameObjectRequest;
+import com.leverx.dealers.dto.AddUserRequest;
 import com.leverx.dealers.dto.ListCommentResponse;
 import com.leverx.dealers.dto.ListGameObjectResponse;
 import com.leverx.dealers.entity.Comment;
@@ -44,10 +45,11 @@ public class GameObjectControllerImpl implements GameObjectController {
     }
 
 
+
     @GetMapping("/comments")
     @Override
-    public ListCommentResponse findAllPostsAuthor(AddGameObjectRequest addGameObjectRequest) {
-        List<Comment> allGameObjectCommentByAuthor = gameObjectService.getListCommentsOfAuthor();
+    public ListCommentResponse findAllPostsAuthor(AddUserRequest addUserRequest) {
+        List<Comment> allGameObjectCommentByAuthor = gameObjectService.getListCommentsOfAuthor(addUserRequest);
         ListCommentResponse listCommentResponse = new ListCommentResponse();
         listCommentResponse.setListComment(allGameObjectCommentByAuthor);
 
@@ -55,7 +57,7 @@ public class GameObjectControllerImpl implements GameObjectController {
     }
 
 
-    @PostMapping("/gameobjects")
+    @DeleteMapping("/gameobjects")
     @Override
     public ResponseEntity<?> deleteGameObject(@RequestBody AddGameObjectRequest addGameObjectRequest) {
         gameObjectService.deleteGameObject(addGameObjectRequest);

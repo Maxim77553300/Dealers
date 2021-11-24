@@ -1,20 +1,25 @@
 package com.leverx.dealers.service;
 
 import com.leverx.dealers.dto.AddGameObjectRequest;
+import com.leverx.dealers.dto.AddUserRequest;
 import com.leverx.dealers.entity.Comment;
 import com.leverx.dealers.entity.GameObject;
+import com.leverx.dealers.entity.User;
+import com.leverx.dealers.repository.CommentRepository;
 import com.leverx.dealers.repository.GameObjectRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameObjectServiceImpl implements GameObjectService {
 
 
     GameObjectRepository gameObjectRepository;
+    CommentRepository commentRepository;
 
 
     @Override
@@ -47,8 +52,10 @@ public class GameObjectServiceImpl implements GameObjectService {
     }
 
     @Override
-    public List<Comment> getListCommentsOfAuthor() {
-        return null;
+    public List<Comment> getListCommentsOfAuthor(AddUserRequest user) {
+
+       List<Comment> listCommentsFilter = commentRepository.findAll().stream().filter((a) -> a.getAuthor_id()==user.getId()).collect(Collectors.toList());
+        return listCommentsFilter;
     }
 
 
