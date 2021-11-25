@@ -8,6 +8,7 @@ import org.w3c.dom.Text;
 import javax.persistence.*;
 import java.awt.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity(name = "comment")
 @Getter
@@ -17,7 +18,7 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
     @Column(name = "message")
     private TextArea message;
     @Column(name = "author_id")

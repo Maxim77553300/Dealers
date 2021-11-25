@@ -7,13 +7,14 @@ import org.w3c.dom.Text;
 import javax.validation.constraints.NotNull;
 import java.awt.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class AddCommentRequest {
 
     @NotNull
-    private Integer id;
+    private UUID id;
     @NotNull
     private TextArea message;
     @NotNull

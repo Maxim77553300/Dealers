@@ -6,13 +6,14 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class AddUserRequest {
 
     @NotNull
-    private Integer id;
+    private UUID id;
     @NotNull
     private String first_name;
     @NotNull

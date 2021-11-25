@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity(name = "gameobject")
 @Getter
@@ -16,7 +17,7 @@ public class GameObject {
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
     @Column(name = "title")
     private String title;
     @Column(name = "author_id")

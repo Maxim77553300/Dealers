@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,7 +55,7 @@ public class GameObjectServiceImpl implements GameObjectService {
     @Override
     public List<Comment> getListCommentsOfAuthor(AddUserRequest user) {
 
-       List<Comment> listCommentsFilter = commentRepository.findAll().stream().filter((a) -> a.getAuthor_id()==user.getId()).collect(Collectors.toList());
+       List<Comment> listCommentsFilter = commentRepository.findAll().stream().filter((a) -> a.getAuthor_id().equals(user.getId())).collect(Collectors.toList());
         return listCommentsFilter;
     }
 
@@ -69,7 +70,7 @@ public class GameObjectServiceImpl implements GameObjectService {
 
     private GameObject mapGameObjectToRequest(AddGameObjectRequest addGameObjectRequest) {
         GameObject gameObject = new GameObject();
-        Integer id = addGameObjectRequest.getId();
+        UUID id = addGameObjectRequest.getId();
         gameObject.setTitle(addGameObjectRequest.getTitle());
         gameObject.setAuthor_id(addGameObjectRequest.getAuthor_id());
         gameObject.setCreated_at(Date.from(java.time.ZonedDateTime.now().toInstant()));
@@ -82,7 +83,7 @@ public class GameObjectServiceImpl implements GameObjectService {
 
     private GameObject redactGameObjectToRequest(AddGameObjectRequest addGameObjectRequest) {
         GameObject gameObject = new GameObject();
-        Integer id = addGameObjectRequest.getId();
+        UUID id = addGameObjectRequest.getId();
         gameObject.setTitle(addGameObjectRequest.getTitle());
         gameObject.setUpdated_at(addGameObjectRequest.getUpdated_at());
         return gameObject;

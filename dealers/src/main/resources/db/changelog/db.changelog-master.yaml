@@ -1,7 +1,7 @@
 databaseChangeLog:
   - logicalFilePath: db/changelog/db.changelog-master.yaml
   - changeSet:
-      id: 5
+      id: 7
       author: dealer
       changes:
         - createTable:
@@ -37,4 +37,106 @@ databaseChangeLog:
               - column:
                   name: role
                   type: varchar(255)
+        - createTable:
+            tableName: game
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - createTable:
+            tableName: comment
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: message
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: author_id
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  name: approved
+                  type: TINYINT
+              - column:
+                  name: rating
+                  type: INT
+        - createTable:
+            tableName: game_object
+            columns:
+              - column:
+                 name: id
+                 type: INT
+                 autoIncrement: true
+                 constraints:
+                   primaryKey: true
+                   nullable: false
+              - column:
+                 name: title
+                 type: varchar(255)
+                 constraints:
+                   unique: true
+                   nullable: false
+              - column:
+                  name: created_at
+                  type: DATETIME
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: DATETIME
+              - column:
+                  name: game_id
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: author_id
+                  type: INT
+  - changeSet:
+      id: 8
+      author: dealer
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: comment
+            baseColumnNames: author_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_comment_author_id
+
+        - addForeignKeyConstraint:
+            baseTableName: game_object
+            baseColumnNames: author_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_game_object_author_id
+
+        - addForeignKeyConstraint:
+            baseTableName: game_object
+            baseColumnNames: game_id
+            referencedTableName: game
+            referencedColumnNames: id
+            constraintName: fk_game_object_game_id
 

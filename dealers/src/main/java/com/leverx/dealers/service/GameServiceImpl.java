@@ -3,14 +3,17 @@ package com.leverx.dealers.service;
 import com.leverx.dealers.dto.AddGameRequest;
 import com.leverx.dealers.entity.Game;
 import com.leverx.dealers.repository.GameRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class GameServiceImpl implements GameService {
 
+    @Autowired
     GameRepository gameRepository;
 
     @Override
@@ -33,7 +36,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public boolean updateGame(AddGameRequest addGameRequest) {
         if (gameRepository.findAllById(Collections.singleton(addGameRequest.getId())).isEmpty()) {
-            System.out.println("Error! This game is not found");
+            //System.out.println("Error! This game is not found");
             return false;
         } else {
             gameRepository.save(updateGameToRequest(addGameRequest));
@@ -49,7 +52,7 @@ public class GameServiceImpl implements GameService {
 
     private Game updateGameToRequest(AddGameRequest addGameRequest) {
         Game game = new Game();
-        Integer id = addGameRequest.getId();
+        UUID id = addGameRequest.getId();
         game.setId(id);
         game.setName(addGameRequest.getName());
         return game;

@@ -5,13 +5,14 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class AddGameObjectRequest {
 
     @NotNull
-    private Integer id;
+    private UUID id;
     @NotNull
     private String title;
     @NotNull

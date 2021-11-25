@@ -6,8 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.rmi.server.UID;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity(name = "user")
 @Getter
@@ -17,14 +17,14 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "password")
     private String password;
-    @Column(name = "email",nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
     @Column(name = "created_at")
     private Date created_at;

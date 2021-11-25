@@ -22,10 +22,8 @@ public class GameControllerImpl implements GameController {
     @Override
     @GetMapping("/games")
     public ListGameResponse findAllGame() {
-        List<Game> allGames = gameService.findAllGame();
-        ListGameResponse listGameResponse = new ListGameResponse();
-        listGameResponse.setListGame(allGames);
-        return listGameResponse;
+        return mapFindAllGame(gameService.findAllGame());
+
     }
 
     @Override
@@ -40,5 +38,11 @@ public class GameControllerImpl implements GameController {
     public ResponseEntity<?> updateGame(@RequestBody AddGameRequest addGameRequest) {
         gameService.updateGame(addGameRequest);
         return ResponseEntity.status(202).build();
+    }
+
+    private ListGameResponse mapFindAllGame(List<Game> allGames) {
+        return ListGameResponse.builder().games(allGames).build();
+
+
     }
 }
