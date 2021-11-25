@@ -1,11 +1,10 @@
 package com.leverx.dealers.controller;
 
+import com.leverx.dealers.dto.AddCommentRequest;
 import com.leverx.dealers.dto.AddGameObjectRequest;
-import com.leverx.dealers.dto.AddUserRequest;
 import com.leverx.dealers.dto.ListCommentResponse;
 import com.leverx.dealers.dto.ListGameObjectResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 
 public interface GameObjectController {
 
@@ -15,7 +14,7 @@ public interface GameObjectController {
 
     ListGameObjectResponse findAllGameObject();
 
-    ListCommentResponse findAllPostsAuthor(AddUserRequest addUserRequest);
+    ListCommentResponse findAllPostsAuthor(AddCommentRequest addCommentRequest);
 
     ResponseEntity<?> deleteGameObject(AddGameObjectRequest addGameObjectRequest);
 }

@@ -3,8 +3,10 @@ package com.leverx.dealers.service;
 import com.leverx.dealers.dto.AddCommentRequest;
 import com.leverx.dealers.entity.Comment;
 import com.leverx.dealers.repository.CommentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,17 +14,13 @@ import java.util.stream.Collectors;
 @Service
 public class CommentServiceImpl implements CommentService {
 
+    @Autowired
     private CommentRepository commentRepository;
 
     @Override
-    public boolean addComment(AddCommentRequest addCommentRequest) {
+    public void addComment(AddCommentRequest addCommentRequest) {
 
-        try {
-            commentRepository.save(mapAddCommentToRequest(addCommentRequest));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        commentRepository.save(mapAddCommentToRequest(addCommentRequest));
 
     }
 
@@ -33,27 +31,38 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment findCommentById(AddCommentRequest addCommentRequest) {
-        return null;
+    public List<Comment> showCommentById(AddCommentRequest addCommentRequest) {
+        List<Comment> commentList = new ArrayList<>();
+        commentList.add(mapAddCommentToRequest(addCommentRequest));
+        return commentList;
     }
 
     @Override
-    public boolean deleteComment(AddCommentRequest addCommentRequest) {
-        return false;
+    public void deleteComment(AddCommentRequest addCommentRequest) {
+
+        commentRepository.delete(mapAddCommentToRequest(addCommentRequest));
+
     }
 
     @Override
-    public Comment updateComment(AddCommentRequest addCommentRequest) {
-        return null;
+    public void updateComment(AddCommentRequest addCommentRequest) {
+
+        commentRepository.save(mapAddCommentToRequest(addCommentRequest));
+
     }
 
     private Comment mapAddCommentToRequest(AddCommentRequest addCommentRequest) {
-        Comment comment = new Comment();
-        comment.setAuthor_id(addCommentRequest.getAuthor_id());
-        comment.setMessage(addCommentRequest.getMessage());
-        comment.setCreated_at(addCommentRequest.getCreated_at());
-        comment.setApproved(addCommentRequest.getApproved());
-        return comment;
+
+        return Comment.
+                builder()
+                .id(addCommentRequest.getId())
+                .author_id(addCommentRequest.getAuthor_id())
+                .message(addCommentRequest.getMessage())
+                .created_at(addCommentRequest.getCreated_at())
+                .approved(addCommentRequest.getApproved())
+                .build();
+
     }
+
 
 }

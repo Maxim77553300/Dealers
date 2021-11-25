@@ -7,14 +7,14 @@ import java.util.List;
 
 public interface CommentService {
 
-    boolean addComment(AddCommentRequest addCommentRequest);
+    void addComment(AddCommentRequest addCommentRequest);
 
     List<Comment> findAllCommentByTraderId(AddCommentRequest addCommentRequest);
 
-    Comment findCommentById(AddCommentRequest addCommentRequest);
+    List<Comment> showCommentById(AddCommentRequest addCommentRequest);
 
-    boolean deleteComment(AddCommentRequest addCommentRequest);
+    void deleteComment(AddCommentRequest addCommentRequest);
 
-    Comment updateComment(AddCommentRequest addCommentRequest);
+    void updateComment(AddCommentRequest addCommentRequest);
 
 }

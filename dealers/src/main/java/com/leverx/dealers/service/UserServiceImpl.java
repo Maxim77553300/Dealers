@@ -12,7 +12,6 @@ public class UserServiceImpl implements UserService{
 
     private static final String USER_NOT_FOUND = "User not Found";
 
-
     private UserRepository userRepository;
 
     @Autowired
@@ -21,9 +20,9 @@ public class UserServiceImpl implements UserService{
     }
 
 
-
     @Override
     public UserDetails loadUserByUsername(String firstName) throws UsernameNotFoundException {
+        //???
         return (UserDetails) userRepository.findUserByFirstName(firstName).orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
     }
 }

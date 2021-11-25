@@ -5,8 +5,7 @@ import com.leverx.dealers.dto.ListCommentResponse;
 import com.leverx.dealers.entity.Comment;
 import com.leverx.dealers.service.CommentService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,34 +13,48 @@ public class CommentControllerImpl implements CommentController {
 
     private CommentService commentService;
 
-    @PostMapping("/comments")
+    @PostMapping("/articles/{id}/comments")
     @Override
-    public ResponseEntity<?> addComment(AddCommentRequest addCommentRequest) {
+    public ResponseEntity<?> addComment(@RequestBody AddCommentRequest addCommentRequest) {
         commentService.addComment(addCommentRequest);
         return ResponseEntity.status(202).build();
     }
 
-    @GetMapping("/comments")
+    @GetMapping("/users/{id}/comments")
     @Override
-    public ListCommentResponse findAllCommentsTrader(AddCommentRequest addCommentRequest) {
-        List<Comment> commentList = commentService.findAllCommentByTraderId(addCommentRequest);
-        ListCommentResponse listCommentResponse = new ListCommentResponse();
-        listCommentResponse.setListComment(commentList);
-        return listCommentResponse;
+    public ListCommentResponse findAllCommentsTrader(@RequestBody AddCommentRequest addCommentRequest) {
+
+        return mapFindAllCommentsTrader(commentService.findAllCommentByTraderId(addCommentRequest));
     }
 
+    @GetMapping("users/{id}/comments/{id}")
     @Override
-    public ListCommentResponse showComment(AddCommentRequest addCommentRequest) {
-        return null;
+    public ListCommentResponse showComment(@RequestBody AddCommentRequest addCommentRequest) {
+
+        List<Comment> list = commentService.showCommentById(addCommentRequest);
+        return ListCommentResponse.builder().listComment(list).build();
+
     }
 
+    @DeleteMapping("comments/{id}/comments/{id}")
     @Override
-    public ResponseEntity<?> deleteComment(AddCommentRequest addCommentRequest) {
-        return null;
+    public ResponseEntity<?> deleteComment(@RequestBody AddCommentRequest addCommentRequest) {
+        commentService.deleteComment(addCommentRequest);
+        return ResponseEntity.status(202).build();
+
     }
 
+    @PutMapping("/articles/{id}/comments")
     @Override
-    public ResponseEntity<?> updateComment(AddCommentRequest addCommentRequest) {
-        return null;
+    public ResponseEntity<?> updateComment(@RequestBody AddCommentRequest addCommentRequest) {
+        commentService.updateComment(addCommentRequest);
+
+        return ResponseEntity.status(202).build();
     }
+
+    private ListCommentResponse mapFindAllCommentsTrader(List<Comment> commentList) {
+
+        return ListCommentResponse.builder().listComment(commentList).build();
+    }
+
 }

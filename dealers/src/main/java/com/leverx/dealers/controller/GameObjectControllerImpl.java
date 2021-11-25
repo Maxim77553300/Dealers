@@ -1,14 +1,14 @@
 package com.leverx.dealers.controller;
 
+import com.leverx.dealers.dto.AddCommentRequest;
 import com.leverx.dealers.dto.AddGameObjectRequest;
-import com.leverx.dealers.dto.AddUserRequest;
 import com.leverx.dealers.dto.ListCommentResponse;
 import com.leverx.dealers.dto.ListGameObjectResponse;
 import com.leverx.dealers.entity.Comment;
 import com.leverx.dealers.entity.GameObject;
+import com.leverx.dealers.service.CommentService;
 import com.leverx.dealers.service.GameObjectService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,50 +18,51 @@ import java.util.List;
 public class GameObjectControllerImpl implements GameObjectController {
 
     GameObjectService gameObjectService;
+    CommentService commentService;
 
-    @PutMapping("/gameobjects")
+    @PutMapping("/object/{id}")
     @Override
     public ResponseEntity<?> redactGameObject(AddGameObjectRequest addGameObjectRequest) {
         gameObjectService.redactGameObject(addGameObjectRequest);
         return ResponseEntity.status(202).build();
     }
 
-
     @Override
-    @PostMapping("/gameobjects")
+    @PostMapping("/object")
     public ResponseEntity<?> addGameObject(AddGameObjectRequest addGameObjectRequest) {
         gameObjectService.addGameObject(addGameObjectRequest);
         return ResponseEntity.status(202).build();
     }
 
-
-    @GetMapping("/gameobjects")
+    @GetMapping("/object")
     @Override
     public ListGameObjectResponse findAllGameObject() {
-        List<GameObject> gameObjects = gameObjectService.findAllGameObject();
-        ListGameObjectResponse listGameObjectResponse = new ListGameObjectResponse();
-        listGameObjectResponse.setListGameObject(gameObjects);
-        return listGameObjectResponse;
+
+        return mapFindAllGameObject(gameObjectService.findAllGameObject());
     }
 
 
-
-    @GetMapping("/comments")
+    @GetMapping("/my")
     @Override
-    public ListCommentResponse findAllPostsAuthor(AddUserRequest addUserRequest) {
-        List<Comment> allGameObjectCommentByAuthor = gameObjectService.getListCommentsOfAuthor(addUserRequest);
-        ListCommentResponse listCommentResponse = new ListCommentResponse();
-        listCommentResponse.setListComment(allGameObjectCommentByAuthor);
+    public ListCommentResponse findAllPostsAuthor(@RequestBody AddCommentRequest addCommentRequest) {
 
-        return listCommentResponse;
+        return mapFindAllPostsAuthor(commentService.findAllCommentByTraderId(addCommentRequest));
     }
 
-
-    @DeleteMapping("/gameobjects")
+    @DeleteMapping("/object/{id}")
     @Override
     public ResponseEntity<?> deleteGameObject(@RequestBody AddGameObjectRequest addGameObjectRequest) {
         gameObjectService.deleteGameObject(addGameObjectRequest);
         return ResponseEntity.status(202).build();
 
+    }
+
+    private ListGameObjectResponse mapFindAllGameObject(List<GameObject> gameObjects) {
+        return ListGameObjectResponse.builder().listGameObject(gameObjects).build();
+    }
+
+    private ListCommentResponse mapFindAllPostsAuthor(List<Comment> commentList) {
+
+        return ListCommentResponse.builder().listComment(commentList).build();
     }
 }

@@ -6,15 +6,13 @@ import com.leverx.dealers.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class GameServiceImpl implements GameService {
 
     @Autowired
-    GameRepository gameRepository;
+    private GameRepository gameRepository;
 
     @Override
     public List<Game> findAllGame() {
@@ -22,39 +20,26 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public boolean addGame(AddGameRequest addGameRequest) {
-        try {
-            gameRepository.save(mapAddGameToRequest(addGameRequest));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public void addGame(AddGameRequest addGameRequest) {
+
+        gameRepository.save(mapAddGameToRequest(addGameRequest));
 
     }
 
-
     @Override
-    public boolean updateGame(AddGameRequest addGameRequest) {
-        if (gameRepository.findAllById(Collections.singleton(addGameRequest.getId())).isEmpty()) {
-            //System.out.println("Error! This game is not found");
-            return false;
-        } else {
-            gameRepository.save(updateGameToRequest(addGameRequest));
-        }
-        return true;
+    public void updateGame(AddGameRequest addGameRequest) {
+        gameRepository.save(updateGameToRequest(addGameRequest));
     }
 
     private Game mapAddGameToRequest(AddGameRequest addGameRequest) {
-        Game game = new Game();
-        game.setName(addGameRequest.getName());
-        return game;
+
+        return Game.builder().name(addGameRequest.getName()).build();
+
     }
 
     private Game updateGameToRequest(AddGameRequest addGameRequest) {
-        Game game = new Game();
-        UUID id = addGameRequest.getId();
-        game.setId(id);
-        game.setName(addGameRequest.getName());
-        return game;
+
+        return Game.builder().id(addGameRequest.getId()).name(addGameRequest.getName()).build();
+
     }
 }

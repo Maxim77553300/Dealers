@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 public class GameControllerImpl implements GameController {
 
-
     GameService gameService;
 
     public GameControllerImpl(GameService gameService) {
@@ -23,7 +22,6 @@ public class GameControllerImpl implements GameController {
     @GetMapping("/games")
     public ListGameResponse findAllGame() {
         return mapFindAllGame(gameService.findAllGame());
-
     }
 
     @Override
@@ -34,7 +32,7 @@ public class GameControllerImpl implements GameController {
     }
 
     @Override
-    @PutMapping("/games")
+    @PutMapping("/games/{id}")
     public ResponseEntity<?> updateGame(@RequestBody AddGameRequest addGameRequest) {
         gameService.updateGame(addGameRequest);
         return ResponseEntity.status(202).build();
@@ -42,7 +40,5 @@ public class GameControllerImpl implements GameController {
 
     private ListGameResponse mapFindAllGame(List<Game> allGames) {
         return ListGameResponse.builder().games(allGames).build();
-
-
     }
 }
