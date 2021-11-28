@@ -1,5 +1,6 @@
 package com.leverx.dealers.dto;
 
+import com.leverx.dealers.entity.Game;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,5 +23,7 @@ public class AddGameObjectRequest {
     @NotNull
     private Date updated_at;
     @NotNull
-    private Integer game_id;
+    private Game game_id;
+
+
 }

@@ -19,15 +19,24 @@ import java.util.UUID;
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
+
     @Column(name = "message")
     private TextArea message;
-    @Column(name = "author_id")
-    private Integer author_id;
+
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "author_id")     /// ????
+    private Integer author_id;           ///??????????
+
     @Column(name = "created_at")
     private Date created_at;
+
     @Column(name = "approved")
     private Boolean approved;
+
+
+
+
 
 }

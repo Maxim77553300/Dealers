@@ -26,4 +26,6 @@ public class AddUserRequest {
     private Date created_at;
     @NotNull
     private Role role;
+
+
 }

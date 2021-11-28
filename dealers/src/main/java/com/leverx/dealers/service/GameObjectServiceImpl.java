@@ -18,7 +18,7 @@ public class GameObjectServiceImpl implements GameObjectService {
 
     @Autowired
     private GameObjectRepository gameObjectRepository;
-    @Autowired
+
     private CommentRepository commentRepository;
 
 
@@ -70,10 +70,9 @@ public class GameObjectServiceImpl implements GameObjectService {
         return GameObject.
                 builder()
                 .title(addGameObjectRequest.getTitle())
-                .author_id(addGameObjectRequest.getAuthor_id())
                 .created_at(addGameObjectRequest.getCreated_at())
-                .updated_at(addGameObjectRequest.getUpdated_at())
-                .game_id(addGameObjectRequest.getGame_id()).build();
+                .updated_at(addGameObjectRequest.getUpdated_at()).build();
+
 
     }
 

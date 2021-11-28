@@ -15,4 +15,6 @@ public class AddGameRequest {
     private UUID id;
     @NotNull
     private String name;
+
+
 }

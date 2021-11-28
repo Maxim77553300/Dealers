@@ -42,7 +42,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: INT
+                  type: int
                   autoIncrement: true
                   constraints:
                     primaryKey: true

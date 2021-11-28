@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+@RestController
 public class CommentControllerImpl implements CommentController {
 
     private CommentService commentService;

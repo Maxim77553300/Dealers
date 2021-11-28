@@ -18,7 +18,7 @@ public class UserControllerImpl implements UserController{
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/user/all")
+    @GetMapping("/users")
     @Override
     public List<User> allUsers() {
         return userRepository.findAll();
