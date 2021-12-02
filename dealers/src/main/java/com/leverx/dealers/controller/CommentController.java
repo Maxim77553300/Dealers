@@ -1,18 +1,27 @@
 package com.leverx.dealers.controller;
 
-import com.leverx.dealers.dto.AddCommentRequest;
+import com.leverx.dealers.dto.CommentRequest;
 import com.leverx.dealers.dto.ListCommentResponse;
 import org.springframework.http.ResponseEntity;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 public interface CommentController {
 
-    ResponseEntity<?> addComment(AddCommentRequest addCommentRequest);
+    ResponseEntity<Void> addComment(CommentRequest commentRequest);
 
-    ListCommentResponse findAllCommentsTrader(AddCommentRequest addCommentRequest);
 
-    ListCommentResponse showComment(AddCommentRequest addCommentRequest);
+    CommentRequest getCommentById(Integer id);
 
-    ResponseEntity<?> deleteComment(AddCommentRequest addCommentRequest);
+    ListCommentResponse getAllCommentsByGameObjectId(Integer id);
 
-    ResponseEntity<?> updateComment(AddCommentRequest addCommentRequest);
+    ListCommentResponse getAllCommentsByUserId(Integer id);
+
+    ListCommentResponse getAllComments();
+
+
+
+    ResponseEntity<Void> deleteComment(Integer id);
+
+    ResponseEntity<Void> updateComment(CommentRequest commentRequest, Integer integer);
 }

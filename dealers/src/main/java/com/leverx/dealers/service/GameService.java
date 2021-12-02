@@ -11,5 +11,5 @@ public interface GameService {
 
     void addGame(AddGameRequest addGameRequest);
 
-    void updateGame(AddGameRequest addGameRequest);
+    void updateGame(AddGameRequest addGameRequest,Integer id);
 }

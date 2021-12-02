@@ -1,14 +1,19 @@
 package com.leverx.dealers.repository;
 
-import com.leverx.dealers.dto.AddCommentRequest;
 import com.leverx.dealers.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface CommentRepository extends JpaRepository<Comment, UUID> {
+public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
+    List<Comment> findAllByUserId(Integer userId);
+
+    List<Comment> findCommentByGameObjectId(Integer gameObjectId);
+
+    Optional<Comment> findCommentById(Integer comment);
 
 }

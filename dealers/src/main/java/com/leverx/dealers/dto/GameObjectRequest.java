@@ -5,25 +5,25 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
 @Getter
 @Setter
-public class AddGameObjectRequest {
+public class GameObjectRequest {
 
-    @NotNull
-    private UUID id;
+
     @NotNull
     private String title;
     @NotNull
-    private Integer author_id;
+    private Integer userId;
     @NotNull
-    private Date created_at;
+    private LocalDateTime createdAt;
     @NotNull
-    private Date updated_at;
+    private LocalDateTime updatedAt;
     @NotNull
-    private Game game_id;
+    private Integer gameId;
 
 
 }

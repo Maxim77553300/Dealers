@@ -1,75 +1,74 @@
 package com.leverx.dealers.service;
 
-import com.leverx.dealers.dto.AddCommentRequest;
+import com.leverx.dealers.dto.CommentRequest;
+import com.leverx.dealers.dto.ListCommentResponse;
 import com.leverx.dealers.entity.Comment;
-import com.leverx.dealers.entity.User;
 import com.leverx.dealers.repository.CommentRepository;
-import com.leverx.dealers.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @Service
 public class CommentServiceImpl implements CommentService {
 
-    @Autowired
+
     private CommentRepository commentRepository;
 
-
-
-    @Override
-    public void addComment(AddCommentRequest addCommentRequest) {
-
-        commentRepository.save(mapAddCommentToRequest(addCommentRequest));
-
+    public CommentServiceImpl(CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
     }
 
     @Override
-    public List<Comment> findAllCommentByTraderId(AddCommentRequest addCommentRequest) {
-
-
-        List<Comment> commentList = commentRepository.findAll().stream().filter((a) -> a.getAuthor_id() == addCommentRequest.getAuthor_id()).collect(Collectors.toList());
-        return commentList;
+    public void addComment(CommentRequest commentRequest) {
+        Comment comment = new Comment();
+        commentRepository.save(mapAddCommentToRequest(commentRequest,comment));
     }
 
     @Override
-    public List<Comment> showCommentById(AddCommentRequest addCommentRequest) {
-        List<Comment> commentList = new ArrayList<>();
-        commentList.add(mapAddCommentToRequest(addCommentRequest));
-        return commentList;
+    public ListCommentResponse findAllCommentByUserId(Integer userId) {
+        List<Comment> commentList = commentRepository.findAllByUserId(userId);
+        ListCommentResponse listCommentResponse = new ListCommentResponse();
+        listCommentResponse.setListComment(commentList);
+        return listCommentResponse;
     }
 
     @Override
-    public void deleteComment(AddCommentRequest addCommentRequest) {
+    public Comment getCommentById(Integer id) {
+        return commentRepository.findCommentById(id).orElseThrow(RuntimeException::new);
+    }
 
-        commentRepository.delete(mapAddCommentToRequest(addCommentRequest));
+    public ListCommentResponse getAllCommentsByGameObjectId(Integer id) {
+        ListCommentResponse listCommentResponse = new ListCommentResponse();
+        listCommentResponse.setListComment(commentRepository.findCommentByGameObjectId(id));
+        return listCommentResponse;
+    }
 
+
+    @Override
+    public void deleteComment(Integer id) {
+        commentRepository.deleteById(id);
     }
 
     @Override
-    public void updateComment(AddCommentRequest addCommentRequest) {
-
-        commentRepository.save(mapAddCommentToRequest(addCommentRequest));
-
+    public void updateComment(CommentRequest commentRequest,Integer id) {
+        Comment comment = commentRepository.findCommentById(id).orElseThrow(RuntimeException::new);
+        commentRepository.save(mapAddCommentToRequest(commentRequest,comment));
     }
 
-    private Comment mapAddCommentToRequest(AddCommentRequest addCommentRequest) {
-
-        return Comment.
-                builder()
-                .id(addCommentRequest.getId())
-                .author_id(addCommentRequest.getAuthor_id())
-                .message(addCommentRequest.getMessage())
-                .created_at(addCommentRequest.getCreated_at())
-                .approved(addCommentRequest.getApproved())
-                .build();
-
+    @Override
+    public ListCommentResponse getAllComments() {
+        ListCommentResponse listCommentResponse = new ListCommentResponse();
+        listCommentResponse.setListComment(commentRepository.findAll());
+        return listCommentResponse;
     }
 
+    private Comment mapAddCommentToRequest(CommentRequest commentRequest,Comment comment) {
+        comment.setUserId(commentRequest.getUserId());
+        comment.setMessage(commentRequest.getMessage());
+        comment.setCreatedAt(commentRequest.getCreatedAt());
+        comment.setApproved(commentRequest.getApproved());
+        return comment;
+    }
 
 }

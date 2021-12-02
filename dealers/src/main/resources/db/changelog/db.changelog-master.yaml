@@ -18,7 +18,7 @@ databaseChangeLog:
                   name: first_name
                   type: varchar(255)
                   constraints:
-                    unique: true
+                    unique: false
                     nullable: false
               - column:
                   name: last_name
@@ -62,15 +62,11 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
-                    nullable: false
               - column:
                   name: message
-                  type: varchar(255)
-                  constraints:
-                    unique: true
-                    nullable: false
+                  type: clob
               - column:
-                  name: author_id
+                  name: user_id
                   type: INT
                   constraints:
                     nullable: false
@@ -79,9 +75,12 @@ databaseChangeLog:
                   type: DATETIME
               - column:
                   name: approved
-                  type: TINYINT
+                  type: boolean
               - column:
                   name: rating
+                  type: INT
+              - column:
+                  name: game_object_id
                   type: INT
         - createTable:
             tableName: game_object
@@ -113,7 +112,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: author_id
+                  name: user_id
                   type: INT
   - changeSet:
       id: 8
@@ -121,17 +120,17 @@ databaseChangeLog:
       changes:
         - addForeignKeyConstraint:
             baseTableName: comment
-            baseColumnNames: author_id
+            baseColumnNames: user_id
             referencedTableName: user
             referencedColumnNames: id
-            constraintName: fk_comment_author_id
+            constraintName: fk_comment_user_id
 
         - addForeignKeyConstraint:
             baseTableName: game_object
-            baseColumnNames: author_id
+            baseColumnNames: user_id
             referencedTableName: user
             referencedColumnNames: id
-            constraintName: fk_game_object_author_id
+            constraintName: fk_game_object_user_id
 
         - addForeignKeyConstraint:
             baseTableName: game_object

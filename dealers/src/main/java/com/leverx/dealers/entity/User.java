@@ -12,14 +12,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "user")
-@Getter
-@Setter
-@ToString
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Integer id;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -31,28 +27,66 @@ public class User {
     @Column(name = "created_at")
     private Date created_at;
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(cascade = CascadeType.ALL) // Uni-Directional
-    @JoinColumn(name = "author_id")
-    private List<GameObject> gameObjectList;
 
-    public void addGameObjectToUser(GameObject gameObject){
-        if(gameObjectList == null){
-            gameObjectList = new ArrayList<>();
-        }
-        gameObjectList.add(gameObject);
+    public User() {
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_id")
-    private List<Comment> commentList;
-
-    public void addCommentToUser(Comment comment){
-        if(commentList == null){
-            commentList = new ArrayList<>();
-        }
-        commentList.add(comment);
+    public Integer getId() {
+        return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Date getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

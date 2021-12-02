@@ -1,40 +1,21 @@
 package com.leverx.dealers.service;
 
-import com.leverx.dealers.dto.AddGameObjectRequest;
-import com.leverx.dealers.dto.AddUserRequest;
-import com.leverx.dealers.dto.ListCommentResponse;
-import com.leverx.dealers.entity.Comment;
+import com.leverx.dealers.dto.GameObjectRequest;
+import com.leverx.dealers.dto.ListGameObjectResponse;
 import com.leverx.dealers.entity.GameObject;
-import com.leverx.dealers.repository.CommentRepository;
 import com.leverx.dealers.repository.GameObjectRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class GameObjectServiceImpl implements GameObjectService {
 
-    @Autowired
+
     private GameObjectRepository gameObjectRepository;
 
-    private CommentRepository commentRepository;
-
-
-    @Override
-    public void redactGameObject(AddGameObjectRequest addGameObjectRequest) {
-
-        gameObjectRepository.save(redactGameObjectToRequest(addGameObjectRequest));
-
-    }
-
-
-    @Override
-    public void addGameObject(AddGameObjectRequest addGameObjectRequest) {
-
-        gameObjectRepository.save(mapGameObjectToRequest(addGameObjectRequest));
-
+    public GameObjectServiceImpl(GameObjectRepository gameObjectRepository) {
+        this.gameObjectRepository = gameObjectRepository;
     }
 
     @Override
@@ -42,39 +23,47 @@ public class GameObjectServiceImpl implements GameObjectService {
         return gameObjectRepository.findAll();
     }
 
-    @Override
-    public ListCommentResponse getListCommentsOfAuthor(AddUserRequest user) {
-
-        List<Comment> listCommentsFilter = commentRepository.findAll().stream().filter((a) -> a.getAuthor_id().equals(user.getId())).collect(Collectors.toList());
-
-        return ListCommentResponse.builder().listComment(listCommentsFilter).build();
-
-    }
-
 
     @Override
-    public void deleteGameObject(AddGameObjectRequest addGameObjectRequest) {
-
-        gameObjectRepository.deleteById(addGameObjectRequest.getId());
-
+    public ListGameObjectResponse findAllGameObjectByUser(Integer id) {
+        ListGameObjectResponse listGameObjectResponse = new ListGameObjectResponse();
+        listGameObjectResponse.setListGameObject(gameObjectRepository.findByUserId(id));
+        return listGameObjectResponse;
     }
 
-    private GameObject redactGameObjectToRequest(AddGameObjectRequest addGameObjectRequest) {
-
-        return GameObject.builder().id(addGameObjectRequest.getId()).title(addGameObjectRequest.getTitle()).updated_at(addGameObjectRequest.getUpdated_at()).build();
-
+    @Override
+    public ListGameObjectResponse findAllGameObjectByGame(Integer gameId) {
+        List<GameObject> byGameId = gameObjectRepository.findByGameId(gameId);
+        ListGameObjectResponse listGameObjectResponse = new ListGameObjectResponse();
+        listGameObjectResponse.setListGameObject(byGameId);
+        return listGameObjectResponse;
     }
 
-    private GameObject mapGameObjectToRequest(AddGameObjectRequest addGameObjectRequest) {
-
-        return GameObject.
-                builder()
-                .title(addGameObjectRequest.getTitle())
-                .created_at(addGameObjectRequest.getCreated_at())
-                .updated_at(addGameObjectRequest.getUpdated_at()).build();
-
-
+    @Override
+    public void addGameObject(GameObjectRequest gameObjectRequest) {
+        GameObject gameObject = new GameObject();
+        gameObjectRepository.save(mapGameObjectRequestToGameObject(gameObjectRequest, gameObject));
     }
 
+    @Override
+    public void editGameObject(GameObjectRequest gameObjectRequest, Integer id) {
+        GameObject gameObject = gameObjectRepository.findById(id).orElseThrow(RuntimeException::new);
+        mapGameObjectRequestToGameObject(gameObjectRequest, gameObject);
+        gameObjectRepository.save(gameObject);
+    }
+
+    @Override
+    public void deleteGameObject(Integer id) {
+        gameObjectRepository.deleteById(id);
+    }
+
+    private GameObject mapGameObjectRequestToGameObject(GameObjectRequest gameObjectRequest, GameObject gameObject) {
+        gameObject.setTitle(gameObjectRequest.getTitle());
+        gameObject.setCreatedAt(gameObjectRequest.getCreatedAt());
+        gameObject.setUpdatedAt(gameObjectRequest.getUpdatedAt());
+        gameObject.setGameId(gameObjectRequest.getGameId());
+        gameObject.setUserId(gameObject.getUserId());
+        return gameObject;
+    }
 
 }

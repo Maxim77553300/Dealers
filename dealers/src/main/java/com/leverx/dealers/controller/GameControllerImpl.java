@@ -4,9 +4,11 @@ import com.leverx.dealers.dto.AddGameRequest;
 import com.leverx.dealers.dto.ListGameResponse;
 import com.leverx.dealers.entity.Game;
 import com.leverx.dealers.service.GameService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,15 +28,15 @@ public class GameControllerImpl implements GameController {
 
     @Override
     @PostMapping("/games")
-    public ResponseEntity<?> addGame(@RequestBody AddGameRequest addGameRequest) {
+    public ResponseEntity<Void> addGame(@RequestBody @Valid AddGameRequest addGameRequest) {
         gameService.addGame(addGameRequest);
         return ResponseEntity.status(202).build();
     }
 
     @Override
     @PutMapping("/games/{id}")
-    public ResponseEntity<?> updateGame(@RequestBody AddGameRequest addGameRequest) {
-        gameService.updateGame(addGameRequest);
+    public ResponseEntity<Void> updateGame(@RequestBody @Valid AddGameRequest addGameRequest,@PathVariable("id") Integer id) {
+        gameService.updateGame(addGameRequest,id);
         return ResponseEntity.status(202).build();
     }
 

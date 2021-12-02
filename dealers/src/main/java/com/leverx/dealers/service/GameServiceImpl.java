@@ -11,8 +11,11 @@ import java.util.List;
 @Service
 public class GameServiceImpl implements GameService {
 
-    @Autowired
     private GameRepository gameRepository;
+
+    public GameServiceImpl(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
+    }
 
     @Override
     public List<Game> findAllGame() {
@@ -21,25 +24,19 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void addGame(AddGameRequest addGameRequest) {
-
-        gameRepository.save(mapAddGameToRequest(addGameRequest));
-
+        gameRepository.save(mapAddGameRequestToGame(addGameRequest));
     }
 
     @Override
-    public void updateGame(AddGameRequest addGameRequest) {
-        gameRepository.save(updateGameToRequest(addGameRequest));
+    public void updateGame(AddGameRequest addGameRequest,Integer id) {
+        Game game = gameRepository.findById(id).orElseThrow(RuntimeException::new);
+        game.setName(addGameRequest.getName());
+        gameRepository.save(game);
     }
 
-    private Game mapAddGameToRequest(AddGameRequest addGameRequest) {
-
-        return Game.builder().name(addGameRequest.getName()).build();
-
-    }
-
-    private Game updateGameToRequest(AddGameRequest addGameRequest) {
-
-        return Game.builder().id(addGameRequest.getId()).name(addGameRequest.getName()).build();
-
+    private Game mapAddGameRequestToGame(AddGameRequest addGameRequest) {
+        Game game = new Game();
+        game.setName(addGameRequest.getName());
+        return game;
     }
 }

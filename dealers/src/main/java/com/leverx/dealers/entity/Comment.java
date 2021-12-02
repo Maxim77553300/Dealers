@@ -1,42 +1,91 @@
 package com.leverx.dealers.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.w3c.dom.Text;
-
 import javax.persistence.*;
 import java.awt.*;
-import java.util.Date;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 @Entity(name = "comment")
-@Getter
-@Setter
-@ToString
-@Builder
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Integer id;
 
     @Column(name = "message")
-    private TextArea message;
+    private String message;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "author_id")     /// ????
-    private Integer author_id;           ///??????????
+    @Column(name = "user_id")
+    private Integer userId;
 
     @Column(name = "created_at")
-    private Date created_at;
+    private LocalDateTime createdAt;
 
     @Column(name = "approved")
     private Boolean approved;
 
+    @Column(name = "rating")
+    private Integer rating;
+
+    @Column(name = "game_object_id")
+    private Integer gameObjectId;
 
 
+    public Comment() {
+    }
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Boolean getApproved() {
+        return approved;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public Integer getGameObjectId() {
+        return gameObjectId;
+    }
+
+    public void setGameObjectId(Integer gameObjectId) {
+        this.gameObjectId = gameObjectId;
+    }
 }

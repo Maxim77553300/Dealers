@@ -10,5 +10,5 @@ public interface GameController {
 
     ResponseEntity<?> addGame(AddGameRequest addGameRequest);
 
-    ResponseEntity<?> updateGame(AddGameRequest addGameRequest);
+    ResponseEntity<?> updateGame(AddGameRequest addGameRequest,Integer id);
 }

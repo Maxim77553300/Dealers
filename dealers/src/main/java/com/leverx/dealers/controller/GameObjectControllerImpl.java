@@ -1,68 +1,62 @@
 package com.leverx.dealers.controller;
 
-import com.leverx.dealers.dto.AddCommentRequest;
-import com.leverx.dealers.dto.AddGameObjectRequest;
-import com.leverx.dealers.dto.ListCommentResponse;
+import com.leverx.dealers.dto.GameObjectRequest;
 import com.leverx.dealers.dto.ListGameObjectResponse;
-import com.leverx.dealers.entity.Comment;
-import com.leverx.dealers.entity.GameObject;
-import com.leverx.dealers.service.CommentService;
 import com.leverx.dealers.service.GameObjectService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 
 @RestController
 public class GameObjectControllerImpl implements GameObjectController {
 
     GameObjectService gameObjectService;
-    CommentService commentService;
+
+    public GameObjectControllerImpl(GameObjectService gameObjectService) {
+        this.gameObjectService = gameObjectService;
+    }
+
+    @GetMapping("/objects")
+    @Override
+    public ListGameObjectResponse findAllGameObject() {
+        ListGameObjectResponse listGameObjectResponse = new ListGameObjectResponse();
+        listGameObjectResponse.setListGameObject(gameObjectService.findAllGameObject());
+        return listGameObjectResponse;
+    }
 
     @PutMapping("/object/{id}")
     @Override
-    public ResponseEntity<?> redactGameObject(AddGameObjectRequest addGameObjectRequest) {
-        gameObjectService.redactGameObject(addGameObjectRequest);
+    public ResponseEntity<Void> editGameObject(@RequestBody @Valid GameObjectRequest gameObjectRequest,@PathVariable("id")  Integer id) {
+        gameObjectService.editGameObject(gameObjectRequest, id);
         return ResponseEntity.status(202).build();
     }
 
     @Override
     @PostMapping("/object")
-    public ResponseEntity<?> addGameObject(AddGameObjectRequest addGameObjectRequest) {
-        gameObjectService.addGameObject(addGameObjectRequest);
+    public ResponseEntity<Void> addGameObject(@RequestBody @Valid GameObjectRequest gameObjectRequest) {
+        gameObjectService.addGameObject(gameObjectRequest);
         return ResponseEntity.status(202).build();
-    }
-
-    @GetMapping("/object")
-    @Override
-    public ListGameObjectResponse findAllGameObject() {
-
-        return mapFindAllGameObject(gameObjectService.findAllGameObject());
-    }
-
-
-    @GetMapping("/my")
-    @Override
-    public ListCommentResponse findAllPostsAuthor(@RequestBody AddCommentRequest addCommentRequest) {
-
-        return mapFindAllPostsAuthor(commentService.findAllCommentByTraderId(addCommentRequest));
     }
 
     @DeleteMapping("/object/{id}")
     @Override
-    public ResponseEntity<?> deleteGameObject(@RequestBody AddGameObjectRequest addGameObjectRequest) {
-        gameObjectService.deleteGameObject(addGameObjectRequest);
+    public ResponseEntity<Void> deleteGameObject(@PathVariable("id") Integer id) {
+        gameObjectService.deleteGameObject(id);
         return ResponseEntity.status(202).build();
-
     }
 
-    private ListGameObjectResponse mapFindAllGameObject(List<GameObject> gameObjects) {
-        return ListGameObjectResponse.builder().listGameObject(gameObjects).build();
+    @GetMapping("/object/user/{id}")
+    @Override
+    public ListGameObjectResponse findAllGameObjectByUser(@PathVariable("id") Integer userId) {
+        return gameObjectService.findAllGameObjectByUser(userId);
     }
 
-    private ListCommentResponse mapFindAllPostsAuthor(List<Comment> commentList) {
-
-        return ListCommentResponse.builder().listComment(commentList).build();
+    @GetMapping("/object/game/{id}")
+    @Override
+    public ListGameObjectResponse findAllGameObjectByGame(@PathVariable("id") Integer gameId) {
+        return gameObjectService.findAllGameObjectByGame(gameId);
     }
+
 }
