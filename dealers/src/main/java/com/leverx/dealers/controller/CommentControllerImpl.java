@@ -19,24 +19,24 @@ public class CommentControllerImpl implements CommentController {
         this.commentService = commentService;
     }
 
-    // @PostMapping("/articles/{id}/comments")///????как то вставлять id в url для создаваемого коммента --по этому мапингу не работает-ошибка 405
-    @PostMapping("/articles") // - --по этому адресу добавляет , но не добавляет rating, gameObjectId
+    @PostMapping("/articles/{id}/comments")//--по этому адресу добавляет --// работает!!!!!!
     @Override
-    public ResponseEntity<Void> addComment(@RequestBody @Valid CommentRequest commentRequest) {
+    public ResponseEntity<Void> addComment(@RequestBody @Valid CommentRequest commentRequest,@PathVariable("id") Integer userId) {
+        commentRequest.setUserId(userId);
         commentService.addComment(commentRequest);
         return ResponseEntity.status(202).build();
     }
 
 
-    @GetMapping("users/{id}/comments/{id}") //???--как правильно разрулить 2 id
+    @GetMapping("users/{id1}/comments/{id2}") //???--правильно ли я сделал?? -- разрулить 2 id
     @Override
-    public CommentRequest getCommentById(@PathVariable("id") Integer id) {
+    public CommentRequest getCommentById(@PathVariable("id1") Integer userId,@PathVariable("id2") Integer commentId) {
         Comment comment = new Comment();
-        comment = commentService.getCommentById(id);
-        return mapGetCommentById(comment);
+        comment = commentService.getCommentById(commentId);
+        return mapGetCommentById(comment,userId);
     }
 
-    @GetMapping("/users/{id}/comments")//не то находит --надо по id gameobject ф оно по comment--
+    @GetMapping("/users/{id}/comments")// работает!!
     @Override
     public ListCommentResponse getAllCommentsByGameObjectId(@PathVariable("id") Integer id) {
         ListCommentResponse listCommentResponse = commentService.findAllCommentByUserId(id);
@@ -71,10 +71,10 @@ public class CommentControllerImpl implements CommentController {
         return ResponseEntity.status(202).build();
     }
 
-    private CommentRequest mapGetCommentById(Comment comment) {
+    private CommentRequest mapGetCommentById(Comment comment,Integer userId) {
         CommentRequest commentRequest = new CommentRequest();
         commentRequest.setMessage(comment.getMessage());
-        commentRequest.setUserId(comment.getUserId());
+        commentRequest.setUserId(userId);
         commentRequest.setCreatedAt(comment.getCreatedAt());
         commentRequest.setApproved(comment.getApproved());
         commentRequest.setRating(comment.getRating());

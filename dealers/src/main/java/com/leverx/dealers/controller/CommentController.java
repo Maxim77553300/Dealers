@@ -3,15 +3,16 @@ package com.leverx.dealers.controller;
 import com.leverx.dealers.dto.CommentRequest;
 import com.leverx.dealers.dto.ListCommentResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.persistence.criteria.CriteriaBuilder;
 
 public interface CommentController {
 
-    ResponseEntity<Void> addComment(CommentRequest commentRequest);
+    ResponseEntity<Void> addComment(CommentRequest commentRequest,@PathVariable("id") Integer userId);
 
 
-    CommentRequest getCommentById(Integer id);
+    CommentRequest getCommentById(Integer userId,Integer commentId);
 
     ListCommentResponse getAllCommentsByGameObjectId(Integer id);
 

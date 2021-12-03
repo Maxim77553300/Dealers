@@ -68,6 +68,8 @@ public class CommentServiceImpl implements CommentService {
         comment.setMessage(commentRequest.getMessage());
         comment.setCreatedAt(commentRequest.getCreatedAt());
         comment.setApproved(commentRequest.getApproved());
+        comment.setRating(commentRequest.getRating());
+        comment.setGameObjectId(commentRequest.getGameObjectId());
         return comment;
     }
 
