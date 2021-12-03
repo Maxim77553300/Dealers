@@ -3,9 +3,11 @@ package com.leverx.dealers.service;
 import com.leverx.dealers.dto.CommentRequest;
 import com.leverx.dealers.dto.ListCommentResponse;
 import com.leverx.dealers.entity.Comment;
+import com.leverx.dealers.exception_handling.NoSuchCommentException;
 import com.leverx.dealers.repository.CommentRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -33,6 +35,7 @@ public class CommentServiceImpl implements CommentService {
         return listCommentResponse;
     }
 
+    @Transactional
     @Override
     public Comment getCommentById(Integer id) {
         return commentRepository.findCommentById(id).orElseThrow(RuntimeException::new);

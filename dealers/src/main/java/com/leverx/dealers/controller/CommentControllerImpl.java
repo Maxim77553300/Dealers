@@ -3,7 +3,9 @@ package com.leverx.dealers.controller;
 import com.leverx.dealers.dto.CommentRequest;
 import com.leverx.dealers.dto.ListCommentResponse;
 import com.leverx.dealers.entity.Comment;
+import com.leverx.dealers.exception_handling.CommentIncorrectData;
 import com.leverx.dealers.service.CommentService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +23,7 @@ public class CommentControllerImpl implements CommentController {
 
     @PostMapping("/articles/{id}/comments")//--по этому адресу добавляет --// работает!!!!!!
     @Override
-    public ResponseEntity<Void> addComment(@RequestBody @Valid CommentRequest commentRequest,@PathVariable("id") Integer userId) {
+    public ResponseEntity<Void> addComment(@RequestBody @Valid CommentRequest commentRequest, @PathVariable("id") Integer userId) {
         commentRequest.setUserId(userId);
         commentService.addComment(commentRequest);
         return ResponseEntity.status(202).build();
@@ -30,10 +32,10 @@ public class CommentControllerImpl implements CommentController {
 
     @GetMapping("users/{id1}/comments/{id2}") //???--правильно ли я сделал?? -- разрулить 2 id
     @Override
-    public CommentRequest getCommentById(@PathVariable("id1") Integer userId,@PathVariable("id2") Integer commentId) {
-        Comment comment = new Comment();
-        comment = commentService.getCommentById(commentId);
-        return mapGetCommentById(comment,userId);
+    public CommentRequest getCommentById(@PathVariable("id1") Integer userId, @PathVariable("id2") Integer commentId) {
+        Comment comment = commentService.getCommentById(commentId);
+        CommentRequest commentRequest = mapGetCommentById(comment, userId);
+        return commentRequest;
     }
 
     @GetMapping("/users/{id}/comments")// работает!!
@@ -71,7 +73,7 @@ public class CommentControllerImpl implements CommentController {
         return ResponseEntity.status(202).build();
     }
 
-    private CommentRequest mapGetCommentById(Comment comment,Integer userId) {
+    private CommentRequest mapGetCommentById(Comment comment, Integer userId) {
         CommentRequest commentRequest = new CommentRequest();
         commentRequest.setMessage(comment.getMessage());
         commentRequest.setUserId(userId);
@@ -81,5 +83,6 @@ public class CommentControllerImpl implements CommentController {
         commentRequest.setGameObjectId(commentRequest.getGameObjectId());
         return commentRequest;
     }
+
 
 }
