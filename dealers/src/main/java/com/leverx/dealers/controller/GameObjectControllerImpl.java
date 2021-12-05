@@ -2,11 +2,14 @@ package com.leverx.dealers.controller;
 
 import com.leverx.dealers.dto.GameObjectRequest;
 import com.leverx.dealers.dto.ListGameObjectResponse;
+import com.leverx.dealers.dto.RatingDto;
+import com.leverx.dealers.entity.GameObject;
 import com.leverx.dealers.service.GameObjectService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -21,14 +24,12 @@ public class GameObjectControllerImpl implements GameObjectController {
     @GetMapping("/objects")
     @Override
     public ListGameObjectResponse findAllGameObject() {
-        ListGameObjectResponse listGameObjectResponse = new ListGameObjectResponse();
-        listGameObjectResponse.setListGameObject(gameObjectService.findAllGameObject());
-        return listGameObjectResponse;
+        return mapToListGameObjectResponse(gameObjectService.findAllGameObject());
     }
 
     @PutMapping("/object/{id}")
     @Override
-    public ResponseEntity<Void> editGameObject(@RequestBody @Valid GameObjectRequest gameObjectRequest,@PathVariable("id")  Integer id) {
+    public ResponseEntity<Void> editGameObject(@RequestBody @Valid GameObjectRequest gameObjectRequest, @PathVariable("id") Integer id) {
         gameObjectService.editGameObject(gameObjectRequest, id);
         return ResponseEntity.status(202).build();
     }
@@ -47,16 +48,37 @@ public class GameObjectControllerImpl implements GameObjectController {
         return ResponseEntity.status(202).build();
     }
 
+    @GetMapping("/object/{id}/rating")
+    @Override
+    public RatingDto getRating(@PathVariable("id") Integer gameObjectId) {
+        RatingDto ratingDto = new RatingDto();
+        ratingDto.setRating(gameObjectService.getRating(gameObjectId));
+        return ratingDto;
+    }
+
+    @GetMapping("/objects/top")
+    @Override
+    public List<String> getTop() {
+
+        return gameObjectService.getTop();
+    }
+
     @GetMapping("/object/user/{id}")
     @Override
     public ListGameObjectResponse findAllGameObjectByUser(@PathVariable("id") Integer userId) {
-        return gameObjectService.findAllGameObjectByUser(userId);
+        return mapToListGameObjectResponse(gameObjectService.findAllGameObjectByUser(userId));
     }
 
     @GetMapping("/object/game/{id}")
     @Override
     public ListGameObjectResponse findAllGameObjectByGame(@PathVariable("id") Integer gameId) {
-        return gameObjectService.findAllGameObjectByGame(gameId);
+        return mapToListGameObjectResponse(gameObjectService.findAllGameObjectByGame(gameId));
+    }
+
+    private ListGameObjectResponse mapToListGameObjectResponse(List<GameObject> gameObjectList) {
+        ListGameObjectResponse listGameObjectResponse = new ListGameObjectResponse();
+        listGameObjectResponse.setListGameObject(gameObjectList);
+        return listGameObjectResponse;
     }
 
 }

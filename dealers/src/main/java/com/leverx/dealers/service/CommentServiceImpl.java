@@ -1,13 +1,11 @@
 package com.leverx.dealers.service;
 
 import com.leverx.dealers.dto.CommentRequest;
-import com.leverx.dealers.dto.ListCommentResponse;
 import com.leverx.dealers.entity.Comment;
-import com.leverx.dealers.exception_handling.NoSuchCommentException;
+import com.leverx.dealers.exceptions.NoSuchException;
 import com.leverx.dealers.repository.CommentRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -22,29 +20,26 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void addComment(CommentRequest commentRequest) {
+    public void addComment(CommentRequest commentRequest, Integer userId) {
         Comment comment = new Comment();
-        commentRepository.save(mapAddCommentToRequest(commentRequest,comment));
+        commentRepository.save(mapAddCommentToRequest(commentRequest, comment, userId));
     }
 
     @Override
-    public ListCommentResponse findAllCommentByUserId(Integer userId) {
+    public List<Comment> findAllCommentByUserId(Integer userId) {
         List<Comment> commentList = commentRepository.findAllByUserId(userId);
-        ListCommentResponse listCommentResponse = new ListCommentResponse();
-        listCommentResponse.setListComment(commentList);
-        return listCommentResponse;
+        return commentList;
     }
 
-    @Transactional
+
     @Override
     public Comment getCommentById(Integer id) {
-        return commentRepository.findCommentById(id).orElseThrow(RuntimeException::new);
+        return commentRepository.findCommentById(id).orElseThrow(NoSuchException::new);
     }
 
-    public ListCommentResponse getAllCommentsByGameObjectId(Integer id) {
-        ListCommentResponse listCommentResponse = new ListCommentResponse();
-        listCommentResponse.setListComment(commentRepository.findCommentByGameObjectId(id));
-        return listCommentResponse;
+    @Override
+    public List<Comment> findAllCommentsByGameObjectId(Integer gameObjectId) {
+        return commentRepository.findCommentByGameObjectId(gameObjectId);
     }
 
 
@@ -54,19 +49,27 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void updateComment(CommentRequest commentRequest,Integer id) {
+    public void updateComment(CommentRequest commentRequest, Integer id) {
         Comment comment = commentRepository.findCommentById(id).orElseThrow(RuntimeException::new);
-        commentRepository.save(mapAddCommentToRequest(commentRequest,comment));
+        commentRepository.save(mapAddCommentToRequest(commentRequest, comment));
     }
 
     @Override
-    public ListCommentResponse getAllComments() {
-        ListCommentResponse listCommentResponse = new ListCommentResponse();
-        listCommentResponse.setListComment(commentRepository.findAll());
-        return listCommentResponse;
+    public List<Comment> getAllComments() {
+        return commentRepository.findAll();
     }
 
-    private Comment mapAddCommentToRequest(CommentRequest commentRequest,Comment comment) {
+    private Comment mapAddCommentToRequest(CommentRequest commentRequest, Comment comment, Integer userId) {
+        comment.setUserId(userId);
+        comment.setMessage(commentRequest.getMessage());
+        comment.setCreatedAt(commentRequest.getCreatedAt());
+        comment.setApproved(commentRequest.getApproved());
+        comment.setRating(commentRequest.getRating());
+        comment.setGameObjectId(commentRequest.getGameObjectId());
+        return comment;
+    }
+
+    private Comment mapAddCommentToRequest(CommentRequest commentRequest, Comment comment) {
         comment.setUserId(commentRequest.getUserId());
         comment.setMessage(commentRequest.getMessage());
         comment.setCreatedAt(commentRequest.getCreatedAt());

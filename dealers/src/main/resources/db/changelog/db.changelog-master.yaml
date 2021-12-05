@@ -139,3 +139,14 @@ databaseChangeLog:
             referencedColumnNames: id
             constraintName: fk_game_object_game_id
 
+  - changeSet:
+      id: 9
+      author: dealer
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: comment
+            baseColumnNames: game_object_id
+            referencedTableName: game_object
+            referencedColumnNames: id
+            constraintName: fk_comment_game_object_id
+

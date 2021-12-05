@@ -9,8 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 
 public interface CommentController {
 
-    ResponseEntity<Void> addComment(CommentRequest commentRequest,@PathVariable("id") Integer userId);
-
+    ResponseEntity<Void> addComment(CommentRequest commentRequest, Integer userId);
 
     CommentRequest getCommentById(Integer userId,Integer commentId);
 
@@ -22,7 +21,7 @@ public interface CommentController {
 
 
 
-    ResponseEntity<Void> deleteComment(Integer id);
+    ResponseEntity<Void> deleteComment(Integer userId,Integer commentId);
 
     ResponseEntity<Void> updateComment(CommentRequest commentRequest, Integer integer);
 }

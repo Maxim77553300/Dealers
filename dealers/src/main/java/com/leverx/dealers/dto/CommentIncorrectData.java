@@ -1,4 +1,4 @@
-package com.leverx.dealers.exception_handling;
+package com.leverx.dealers.dto;
 
 public class CommentIncorrectData {
 

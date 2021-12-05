@@ -2,6 +2,7 @@ package com.leverx.dealers.service;
 
 import com.leverx.dealers.dto.GameObjectRequest;
 import com.leverx.dealers.dto.ListGameObjectResponse;
+import com.leverx.dealers.dto.RatingDto;
 import com.leverx.dealers.entity.GameObject;
 
 import java.util.List;
@@ -10,9 +11,9 @@ public interface GameObjectService {
 
     List<GameObject> findAllGameObject();
 
-    ListGameObjectResponse findAllGameObjectByUser(Integer id);
+    List<GameObject> findAllGameObjectByUser(Integer id);
 
-    ListGameObjectResponse findAllGameObjectByGame(Integer gameId);
+    List<GameObject> findAllGameObjectByGame(Integer gameId);
 
     void addGameObject(GameObjectRequest gameObjectRequest);
 
@@ -20,9 +21,11 @@ public interface GameObjectService {
 
     void deleteGameObject(Integer id);
 
+    String getRating(Integer gameObjectId);
+
+    List<String> getTop();
 
 
-
-   // ListCommentResponse getListCommentsOfAuthor(AddUserRequest user);
+    // ListCommentResponse getListCommentsOfAuthor(AddUserRequest user);
 
 }

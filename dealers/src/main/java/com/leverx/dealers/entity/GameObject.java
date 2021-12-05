@@ -77,4 +77,5 @@ public class GameObject {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
 }

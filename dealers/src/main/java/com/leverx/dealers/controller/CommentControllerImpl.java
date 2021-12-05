@@ -3,70 +3,73 @@ package com.leverx.dealers.controller;
 import com.leverx.dealers.dto.CommentRequest;
 import com.leverx.dealers.dto.ListCommentResponse;
 import com.leverx.dealers.entity.Comment;
-import com.leverx.dealers.exception_handling.CommentIncorrectData;
 import com.leverx.dealers.service.CommentService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
 public class CommentControllerImpl implements CommentController {
 
-    private CommentService commentService;
+    private final CommentService commentService;
 
     public CommentControllerImpl(CommentService commentService) {
         this.commentService = commentService;
     }
 
-    @PostMapping("/articles/{id}/comments")//--по этому адресу добавляет --// работает!!!!!!
+    @PostMapping("/articles/{id}/comments")
     @Override
     public ResponseEntity<Void> addComment(@RequestBody @Valid CommentRequest commentRequest, @PathVariable("id") Integer userId) {
-        commentRequest.setUserId(userId);
-        commentService.addComment(commentRequest);
+        commentService.addComment(commentRequest, userId);// добавить id
         return ResponseEntity.status(202).build();
     }
 
 
-    @GetMapping("users/{id1}/comments/{id2}") //???--правильно ли я сделал?? -- разрулить 2 id
+    @GetMapping("users/{userId}/comments/{commentId}")
     @Override
-    public CommentRequest getCommentById(@PathVariable("id1") Integer userId, @PathVariable("id2") Integer commentId) {
+    public CommentRequest getCommentById(@PathVariable("userId") Integer userId, @PathVariable("commentId") Integer commentId) {
         Comment comment = commentService.getCommentById(commentId);
         CommentRequest commentRequest = mapGetCommentById(comment, userId);
         return commentRequest;
     }
 
-    @GetMapping("/users/{id}/comments")// работает!!
+    @GetMapping("/objects/{id}/comments")//перестал работать
     @Override
     public ListCommentResponse getAllCommentsByGameObjectId(@PathVariable("id") Integer id) {
-        ListCommentResponse listCommentResponse = commentService.findAllCommentByUserId(id);
+        ListCommentResponse listCommentResponse = new ListCommentResponse();
+        listCommentResponse.setListComment(commentService.findAllCommentsByGameObjectId(id));
         return listCommentResponse;
     }
 
-    @GetMapping("/comments/{id}")  //работает!!! находит по userId !!!
+    @GetMapping("users/{userId}/comments")  //работает!!! находит по userId !!!
     @Override
-    public ListCommentResponse getAllCommentsByUserId(@PathVariable("id") Integer id) {
-        return commentService.findAllCommentByUserId(id);
+    public ListCommentResponse getAllCommentsByUserId(@PathVariable("userId") Integer id) {
+        List<Comment> commentList = commentService.findAllCommentByUserId(id);
+        return mapToListCommentResponse(commentList);
     }
 
     @GetMapping("/comments") // работает
     @Override
     public ListCommentResponse getAllComments() {
-        return commentService.getAllComments();
+        ListCommentResponse listCommentResponse = new ListCommentResponse();
+        listCommentResponse.setListComment(commentService.getAllComments());
+        return listCommentResponse;
     }
 
 
-    //    @DeleteMapping("users/{id}/comments/{id}") // по этому не работает
-    @DeleteMapping("comments/{id}") // по этому адресу работает
+    @DeleteMapping("users/{userId}/comments/{commentId}") // по этому работает
     @Override
-    public ResponseEntity<Void> deleteComment(@PathVariable("id") Integer id) {
-        commentService.deleteComment(id);
+    public ResponseEntity<Void> deleteComment(@PathVariable("userId") Integer userId, @PathVariable("commentId") Integer commentId) {
+        // удалить может только автор отзыва!!!--надо сравнить юзера и автора отзыва
+
+        commentService.deleteComment(commentId);
         return ResponseEntity.status(202).build();
     }
 
-    @PutMapping("/articles/{id}/comments") // ok
+    @PutMapping("/articles/{id}/comments")
     @Override
     public ResponseEntity<Void> updateComment(@RequestBody CommentRequest commentRequest, @PathVariable Integer id) {
         commentService.updateComment(commentRequest, id);
@@ -84,5 +87,10 @@ public class CommentControllerImpl implements CommentController {
         return commentRequest;
     }
 
+    private ListCommentResponse mapToListCommentResponse(List<Comment> commentList) {
+        ListCommentResponse listCommentResponse = new ListCommentResponse();
+        listCommentResponse.setListComment(commentList);
+        return listCommentResponse;
+    }
 
 }

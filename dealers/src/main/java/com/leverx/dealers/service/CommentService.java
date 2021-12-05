@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface CommentService {
 
-    void addComment(CommentRequest commentRequest);
+    void addComment(CommentRequest commentRequest,Integer userId);
 
-    ListCommentResponse findAllCommentByUserId(Integer userId);
+    List<Comment> findAllCommentByUserId(Integer userId);
 
     Comment getCommentById(Integer id);
 
@@ -20,6 +20,7 @@ public interface CommentService {
 
     void updateComment(CommentRequest commentRequest,Integer id);
 
-    ListCommentResponse getAllComments();
+    List<Comment> getAllComments();
 
+    List<Comment> findAllCommentsByGameObjectId(Integer gameObjectId);
 }

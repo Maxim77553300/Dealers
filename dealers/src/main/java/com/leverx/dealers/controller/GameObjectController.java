@@ -2,7 +2,10 @@ package com.leverx.dealers.controller;
 
 import com.leverx.dealers.dto.GameObjectRequest;
 import com.leverx.dealers.dto.ListGameObjectResponse;
+import com.leverx.dealers.dto.RatingDto;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 public interface GameObjectController {
 
@@ -18,7 +21,9 @@ public interface GameObjectController {
 
     ResponseEntity<Void> deleteGameObject(Integer id);
 
-    //RatingDto getRating();
+    RatingDto getRating(Integer gameObjectId);
+
+    List<String> getTop();
 
 
 }

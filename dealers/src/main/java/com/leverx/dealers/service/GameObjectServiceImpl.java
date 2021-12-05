@@ -1,21 +1,26 @@
 package com.leverx.dealers.service;
 
 import com.leverx.dealers.dto.GameObjectRequest;
-import com.leverx.dealers.dto.ListGameObjectResponse;
+import com.leverx.dealers.entity.Comment;
 import com.leverx.dealers.entity.GameObject;
+import com.leverx.dealers.repository.CommentRepository;
 import com.leverx.dealers.repository.GameObjectRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class GameObjectServiceImpl implements GameObjectService {
 
 
-    private GameObjectRepository gameObjectRepository;
+    private final GameObjectRepository gameObjectRepository;
 
-    public GameObjectServiceImpl(GameObjectRepository gameObjectRepository) {
+    private final CommentRepository commentRepository;
+
+    public GameObjectServiceImpl(GameObjectRepository gameObjectRepository, CommentRepository commentRepository) {
         this.gameObjectRepository = gameObjectRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -25,18 +30,13 @@ public class GameObjectServiceImpl implements GameObjectService {
 
 
     @Override
-    public ListGameObjectResponse findAllGameObjectByUser(Integer id) {
-        ListGameObjectResponse listGameObjectResponse = new ListGameObjectResponse();
-        listGameObjectResponse.setListGameObject(gameObjectRepository.findByUserId(id));
-        return listGameObjectResponse;
+    public List<GameObject> findAllGameObjectByUser(Integer id) {
+        return gameObjectRepository.findByUserId(id);
     }
 
     @Override
-    public ListGameObjectResponse findAllGameObjectByGame(Integer gameId) {
-        List<GameObject> byGameId = gameObjectRepository.findByGameId(gameId);
-        ListGameObjectResponse listGameObjectResponse = new ListGameObjectResponse();
-        listGameObjectResponse.setListGameObject(byGameId);
-        return listGameObjectResponse;
+    public List<GameObject> findAllGameObjectByGame(Integer gameId) {
+        return gameObjectRepository.findByGameId(gameId);
     }
 
     @Override
@@ -57,6 +57,24 @@ public class GameObjectServiceImpl implements GameObjectService {
         gameObjectRepository.deleteById(id);
     }
 
+    @Override
+    public String getRating(Integer gameObjectId) {
+        return String.valueOf(commentRepository
+                .findCommentByGameObjectId(gameObjectId)
+                .stream().mapToInt(Comment::getRating)
+                .average().orElse(0.00));
+
+    }
+
+    @Override
+    public List<String> getTop() {
+//        List<GameObject> allGameObjects = gameObjectRepository.findAll();
+        List<String> ratingList = commentRepository.getRatingGameObjectList();
+
+        return ratingList;
+    }
+
+
     private GameObject mapGameObjectRequestToGameObject(GameObjectRequest gameObjectRequest, GameObject gameObject) {
         gameObject.setTitle(gameObjectRequest.getTitle());
         gameObject.setCreatedAt(gameObjectRequest.getCreatedAt());
@@ -65,5 +83,7 @@ public class GameObjectServiceImpl implements GameObjectService {
         gameObject.setUserId(gameObject.getUserId());
         return gameObject;
     }
+
+
 
 }
