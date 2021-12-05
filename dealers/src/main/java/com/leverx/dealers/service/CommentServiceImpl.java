@@ -44,8 +44,12 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public void deleteComment(Integer id) {
-        commentRepository.deleteById(id);
+    public void deleteComment(Integer commentId, Integer userId) throws NoSuchException {
+        if (commentRepository.getById(commentId).getUserId() == userId) {
+            commentRepository.deleteById(commentId);
+        } else {
+            throw new NoSuchException();
+        }
     }
 
     @Override

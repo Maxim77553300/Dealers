@@ -3,6 +3,7 @@ package com.leverx.dealers.controller;
 import com.leverx.dealers.dto.CommentRequest;
 import com.leverx.dealers.dto.ListCommentResponse;
 import com.leverx.dealers.entity.Comment;
+import com.leverx.dealers.exceptions.NoSuchException;
 import com.leverx.dealers.service.CommentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class CommentControllerImpl implements CommentController {
     @PostMapping("/articles/{id}/comments")
     @Override
     public ResponseEntity<Void> addComment(@RequestBody @Valid CommentRequest commentRequest, @PathVariable("id") Integer userId) {
-        commentService.addComment(commentRequest, userId);// добавить id
+        commentService.addComment(commentRequest, userId);
         return ResponseEntity.status(202).build();
     }
 
@@ -36,22 +37,25 @@ public class CommentControllerImpl implements CommentController {
         return commentRequest;
     }
 
-    @GetMapping("/objects/{id}/comments")//перестал работать
+    @GetMapping("/objects/{id}/comments")
     @Override
     public ListCommentResponse getAllCommentsByGameObjectId(@PathVariable("id") Integer id) {
         ListCommentResponse listCommentResponse = new ListCommentResponse();
         listCommentResponse.setListComment(commentService.findAllCommentsByGameObjectId(id));
+        if (listCommentResponse.getListComment().size() == 0) {
+            throw new NoSuchException();
+        }
         return listCommentResponse;
     }
 
-    @GetMapping("users/{userId}/comments")  //работает!!! находит по userId !!!
+    @GetMapping("users/{userId}/comments")
     @Override
     public ListCommentResponse getAllCommentsByUserId(@PathVariable("userId") Integer id) {
         List<Comment> commentList = commentService.findAllCommentByUserId(id);
         return mapToListCommentResponse(commentList);
     }
 
-    @GetMapping("/comments") // работает
+    @GetMapping("/comments")
     @Override
     public ListCommentResponse getAllComments() {
         ListCommentResponse listCommentResponse = new ListCommentResponse();
@@ -60,12 +64,10 @@ public class CommentControllerImpl implements CommentController {
     }
 
 
-    @DeleteMapping("users/{userId}/comments/{commentId}") // по этому работает
+    @DeleteMapping("users/{userId}/comments/{commentId}")
     @Override
     public ResponseEntity<Void> deleteComment(@PathVariable("userId") Integer userId, @PathVariable("commentId") Integer commentId) {
-        // удалить может только автор отзыва!!!--надо сравнить юзера и автора отзыва
-
-        commentService.deleteComment(commentId);
+        commentService.deleteComment(commentId, userId);
         return ResponseEntity.status(202).build();
     }
 

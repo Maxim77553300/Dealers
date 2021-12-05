@@ -16,7 +16,7 @@ public interface CommentService {
 
     Comment getCommentById(Integer id);
 
-    void deleteComment(Integer id);
+    void deleteComment(Integer commentId,Integer userId);
 
     void updateComment(CommentRequest commentRequest,Integer id);
 
