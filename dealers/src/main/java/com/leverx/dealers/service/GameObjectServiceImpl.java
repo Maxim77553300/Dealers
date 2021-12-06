@@ -2,15 +2,21 @@ package com.leverx.dealers.service;
 
 import com.leverx.dealers.dto.GameObjectRequest;
 import com.leverx.dealers.entity.Comment;
+import com.leverx.dealers.entity.Game;
 import com.leverx.dealers.entity.GameObject;
 import com.leverx.dealers.entity.User;
+import com.leverx.dealers.exceptions.NoSuchException;
 import com.leverx.dealers.repository.CommentRepository;
 import com.leverx.dealers.repository.GameObjectRepository;
+import com.leverx.dealers.repository.GameRepository;
+import com.leverx.dealers.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 @Service
 public class GameObjectServiceImpl implements GameObjectService {
@@ -20,9 +26,15 @@ public class GameObjectServiceImpl implements GameObjectService {
 
     private final CommentRepository commentRepository;
 
-    public GameObjectServiceImpl(GameObjectRepository gameObjectRepository, CommentRepository commentRepository) {
+    private final UserRepository userRepository;
+
+    private final GameRepository gameRepository;
+
+    public GameObjectServiceImpl(GameObjectRepository gameObjectRepository, CommentRepository commentRepository, UserRepository userRepository, GameRepository gameRepository) {
         this.gameObjectRepository = gameObjectRepository;
         this.commentRepository = commentRepository;
+        this.userRepository = userRepository;
+        this.gameRepository = gameRepository;
     }
 
     @Override
@@ -44,14 +56,46 @@ public class GameObjectServiceImpl implements GameObjectService {
     @Override
     public void addGameObject(GameObjectRequest gameObjectRequest) {
         GameObject gameObject = new GameObject();
-        gameObjectRepository.save(mapGameObjectRequestToGameObject(gameObjectRequest, gameObject));
+        Optional<User> userOptional = userRepository.findById(gameObjectRequest.getUserId());
+        User user = userOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
+
+
+        Optional<Game> gameOptional = gameRepository.findById(gameObjectRequest.getGameId());
+        Game game = gameOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
+
+
+        gameObjectRepository.save(mapGameObjectRequestToGameObject(gameObjectRequest, gameObject, user, game));
+
+        game.addGameObjectToGame(gameObject);
+        gameRepository.save(game);
+
+        user.getGameObjects().add(gameObject);
+        userRepository.save(user);
+
     }
 
     @Override
-    public void editGameObject(GameObjectRequest gameObjectRequest, Integer id) {
-        GameObject gameObject = gameObjectRepository.findById(id).orElseThrow(RuntimeException::new);
-        mapGameObjectRequestToGameObject(gameObjectRequest, gameObject);
-        gameObjectRepository.save(gameObject);
+    public void editGameObject(GameObjectRequest gameObjectRequest, Integer gameObjectId) {
+        GameObject gameObject = gameObjectRepository.findById(gameObjectId).orElseThrow(NoSuchException::new);
+        Optional<User> userOptional = userRepository.findById(gameObjectRequest.getUserId());
+        User user = userOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
+
+        Optional<Game> gameOptional = gameRepository.findById(gameObjectRequest.getGameId());
+        Game game = gameOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
+
+
+        if (user == gameObject.getUser()) {
+//            gameObjectRepository.save(mapGameObjectRequestToGameObject(gameObjectRequest, gameObject, user, game));
+//
+//            game.addGameObjectToGame(gameObject);
+//            gameRepository.save(game);
+//
+//            user.getGameObjects().add(gameObject);
+//            userRepository.save(user);
+
+        } else {
+            throw new NoSuchException();
+        }
     }
 
     @Override
@@ -92,12 +136,14 @@ public class GameObjectServiceImpl implements GameObjectService {
     }
 
 
-    private GameObject mapGameObjectRequestToGameObject(GameObjectRequest gameObjectRequest, GameObject gameObject) {
+    private GameObject mapGameObjectRequestToGameObject(GameObjectRequest gameObjectRequest, GameObject gameObject, User user,Game game) {
+        user.addGameObjectToUser(gameObject);
+        game.addGameObjectToGame(gameObject);
         gameObject.setTitle(gameObjectRequest.getTitle());
         gameObject.setCreatedAt(gameObjectRequest.getCreatedAt());
         gameObject.setUpdatedAt(gameObjectRequest.getUpdatedAt());
-        gameObject.setGameId(gameObjectRequest.getGameId());
-        gameObject.setUserId(gameObject.getUserId());
+        gameObject.setGame(game);
+        gameObject.setUser(user);
         return gameObject;
     }
 

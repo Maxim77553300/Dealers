@@ -27,8 +27,9 @@ public class Comment {
     @Column(name = "rating")
     private Integer rating;
 
-    @Column(name = "game_object_id")
-    private Integer gameObjectId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "game_object_id")
+    private GameObject gameObject;
 
 
     public Comment() {
@@ -82,11 +83,11 @@ public class Comment {
         this.rating = rating;
     }
 
-    public Integer getGameObjectId() {
-        return gameObjectId;
+    public GameObject getGameObject() {
+        return gameObject;
     }
 
-    public void setGameObjectId(Integer gameObjectId) {
-        this.gameObjectId = gameObjectId;
+    public void setGameObject(GameObject gameObject) {
+        this.gameObject = gameObject;
     }
 }

@@ -3,6 +3,8 @@ package com.leverx.dealers.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "game_object")
@@ -21,29 +23,42 @@ public class GameObject {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "user_id")
-    private Integer userId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "game_id")
-    private Integer gameId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "game_id")
+    private Game game;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "gameObject")
+    private List<Comment> commentList;
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
 
     public GameObject() {
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Integer getGameId() {
-        return gameId;
+    public Game getGame() {
+        return game;
     }
 
-    public void setGameId(Integer gameId) {
-        this.gameId = gameId;
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     public Integer getId() {
@@ -76,6 +91,15 @@ public class GameObject {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    // метод для OneToMany -BiDirectional
+    public void addCommentsToGameObject(Comment comment){
+        if(commentList==null){
+            commentList = new ArrayList<>();
+        }
+        commentList.add(comment);
+        comment.setGameObject(this);
     }
 
 }

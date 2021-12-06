@@ -30,6 +30,17 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
     private List<Comment> comments;
 
+    public List<GameObject> getGameObjects() {
+        return gameObjects;
+    }
+
+    public void setGameObjects(List<GameObject> gameObjects) {
+        this.gameObjects = gameObjects;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    private List<GameObject> gameObjects;
+
     public List<Comment> getComments() {
         return comments;
     }
@@ -104,5 +115,14 @@ public class User {
         }
         comments.add(comment);
         comment.setUser(this);
+    }
+
+    // метод для OneToMany -BiDirectional
+    public void addGameObjectToUser(GameObject gameObject){
+        if(gameObjects==null){
+            gameObjects = new ArrayList<>();
+        }
+        gameObjects.add(gameObject);
+        gameObject.setUser(this);
     }
 }

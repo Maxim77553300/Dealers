@@ -1,11 +1,12 @@
 package com.leverx.dealers.service;
 
-import com.leverx.dealers.dto.CommentIncorrectData;
 import com.leverx.dealers.dto.CommentRequest;
 import com.leverx.dealers.entity.Comment;
+import com.leverx.dealers.entity.GameObject;
 import com.leverx.dealers.entity.User;
 import com.leverx.dealers.exceptions.NoSuchException;
 import com.leverx.dealers.repository.CommentRepository;
+import com.leverx.dealers.repository.GameObjectRepository;
 import com.leverx.dealers.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +23,12 @@ public class CommentServiceImpl implements CommentService {
 
     private final UserRepository userRepository;
 
-    public CommentServiceImpl(CommentRepository commentRepository, UserRepository userRepository) {
+    private final GameObjectRepository gameObjectRepository;
+
+    public CommentServiceImpl(CommentRepository commentRepository, UserRepository userRepository, GameObjectRepository gameObjectRepository) {
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
+        this.gameObjectRepository = gameObjectRepository;
     }
 
     @Override
@@ -32,7 +36,9 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = new Comment();
         Optional<User> userOptional = userRepository.findById(userId);
         User user = userOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
-        commentRepository.save(mapAddCommentToRequest(commentRequest, comment, user));
+        Optional<GameObject> gameObjectOptional = gameObjectRepository.findById(commentRequest.getGameObjectId());
+        GameObject gameObject = gameObjectOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
+        commentRepository.save(mapAddCommentToRequest(commentRequest, comment, user, gameObject));
         user.getComments().add(comment);
         userRepository.save(user);
 
@@ -65,7 +71,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void updateComment(CommentRequest commentRequest, Integer id) {
         Comment comment = commentRepository.findCommentById(id).orElseThrow(RuntimeException::new);
-        commentRepository.save(mapAddCommentToRequest(commentRequest, comment));
+        Optional<GameObject> gameObjectOptional = gameObjectRepository.findById(commentRequest.getGameObjectId());
+        GameObject gameObject = gameObjectOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
+        commentRepository.save(mapAddCommentToRequest(commentRequest, comment,gameObject));
         userRepository.getById(id).addCommentToUser(comment);
     }
 
@@ -74,24 +82,24 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findAll();
     }
 
-    private Comment mapAddCommentToRequest(CommentRequest commentRequest, Comment comment) {
+    private Comment mapAddCommentToRequest(CommentRequest commentRequest, Comment comment,GameObject gameObject) {
 
         comment.setMessage(commentRequest.getMessage());
         comment.setCreatedAt(commentRequest.getCreatedAt());
         comment.setApproved(commentRequest.getApproved());
         comment.setRating(commentRequest.getRating());
-        comment.setGameObjectId(commentRequest.getGameObjectId());
+        comment.setGameObject(gameObject);
         return comment;
     }
 
-    private Comment mapAddCommentToRequest(CommentRequest commentRequest, Comment comment, User user) {
+    private Comment mapAddCommentToRequest(CommentRequest commentRequest, Comment comment, User user,GameObject gameObject) {
         user.addCommentToUser(comment);
         comment.setUser(user);
         comment.setMessage(commentRequest.getMessage());
         comment.setCreatedAt(commentRequest.getCreatedAt());
         comment.setApproved(commentRequest.getApproved());
         comment.setRating(commentRequest.getRating());
-        comment.setGameObjectId(commentRequest.getGameObjectId());
+        comment.setGameObject(gameObject);
         return comment;
     }
 
