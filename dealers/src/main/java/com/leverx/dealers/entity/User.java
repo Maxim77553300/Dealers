@@ -1,17 +1,13 @@
 package com.leverx.dealers.entity;
 
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
-@Entity(name = "user")
+@Entity
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +22,21 @@ public class User {
     private String email;
     @Column(name = "created_at")
     private Date created_at;
-    @Column(name = "role")
+    @CollectionTable(name = "role",joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Role role;
 
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    private List<Comment> comments;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     public User() {
     }
@@ -88,5 +95,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    // метод для OneToMany -BiDirectional
+    public void addCommentToUser(Comment comment){
+        if(comments==null){
+            comments = new ArrayList<>();
+        }
+        comments.add(comment);
+        comment.setUser(this);
     }
 }

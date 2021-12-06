@@ -1,18 +1,10 @@
 package com.leverx.dealers.entity;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
-@Entity(name = "game")
-
+@Entity
+@Table(name = "game")
 public class Game {
 
     @Id

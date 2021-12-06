@@ -1,6 +1,7 @@
 package com.leverx.dealers.repository;
 
 import com.leverx.dealers.entity.Comment;
+import com.leverx.dealers.entity.GameObject;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,8 +19,8 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
     Optional<Comment> findCommentById(Integer comment);
 
     //gameObject_id,rating, --??
-    @Query(value = "SELECT title FROM comment RIGHT JOIN game_object ON comment.game_object_id = game_object.id ORDER BY rating DESC ", nativeQuery = true)
-    List<String> getRatingGameObjectList();
+    @Query(value = "FROM Comment comment ORDER BY comment.rating DESC ")
+    List<Comment> getRatingGameObjectList();
 
 
 }

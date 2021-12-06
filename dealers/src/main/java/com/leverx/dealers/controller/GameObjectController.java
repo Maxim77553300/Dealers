@@ -3,9 +3,12 @@ package com.leverx.dealers.controller;
 import com.leverx.dealers.dto.GameObjectRequest;
 import com.leverx.dealers.dto.ListGameObjectResponse;
 import com.leverx.dealers.dto.RatingDto;
+import com.leverx.dealers.entity.GameObject;
+import com.leverx.dealers.entity.User;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GameObjectController {
 
@@ -23,7 +26,7 @@ public interface GameObjectController {
 
     RatingDto getRating(Integer gameObjectId);
 
-    List<String> getTop();
+    Map<User,Integer> getTop();
 
 
 }

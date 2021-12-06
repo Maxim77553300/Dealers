@@ -3,12 +3,14 @@ package com.leverx.dealers.service;
 import com.leverx.dealers.dto.GameObjectRequest;
 import com.leverx.dealers.entity.Comment;
 import com.leverx.dealers.entity.GameObject;
+import com.leverx.dealers.entity.User;
 import com.leverx.dealers.repository.CommentRepository;
 import com.leverx.dealers.repository.GameObjectRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class GameObjectServiceImpl implements GameObjectService {
@@ -67,11 +69,26 @@ public class GameObjectServiceImpl implements GameObjectService {
     }
 
     @Override
-    public List<String> getTop() {
-//        List<GameObject> allGameObjects = gameObjectRepository.findAll();
-        List<String> ratingList = commentRepository.getRatingGameObjectList();
+    public Map<User, Integer> getTop() {
 
-        return ratingList;
+//        List<GameObject> allGameObjects = gameObjectRepository.findAll();
+        List<Comment> commentList = commentRepository.getRatingGameObjectList();
+        Map<User, Integer> ratingForTraders = getRatingForTraders(commentList);
+//        List<Map.Entry<User, Integer>> collect = ratingForTraders.entrySet().stream().sorted(Map.Entry.<User, Integer>comparingByValue().reversed()).collect(Collectors.toList());
+
+        return ratingForTraders;
+    }
+
+    public Map<User, Integer> getRatingForTraders(List<Comment> comments) {
+        Map<User, Integer> maps = new HashMap<>();
+        for (Comment comment : comments) {
+            if (maps.containsKey(comment.getUser())) {
+                maps.put(comment.getUser(), comment.getRating() + maps.get(comment.getRating()));
+            } else {
+                maps.put(comment.getUser(), comment.getRating());
+            }
+        }
+        return maps;
     }
 
 
@@ -83,7 +100,6 @@ public class GameObjectServiceImpl implements GameObjectService {
         gameObject.setUserId(gameObject.getUserId());
         return gameObject;
     }
-
 
 
 }

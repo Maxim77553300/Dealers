@@ -3,13 +3,13 @@ package com.leverx.dealers.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
-@Entity(name = "game_object")
+@Entity
+@Table(name = "game_object")
 public class GameObject {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "title")

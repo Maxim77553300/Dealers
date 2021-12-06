@@ -1,10 +1,10 @@
 package com.leverx.dealers.entity;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.time.LocalDateTime;
 
-@Entity(name = "comment")
+@Entity
+@Table(name = "comment")
 public class Comment {
 
     @Id
@@ -14,8 +14,9 @@ public class Comment {
     @Column(name = "message")
     private String message;
 
-    @Column(name = "user_id")
-    private Integer userId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -33,6 +34,14 @@ public class Comment {
     public Comment() {
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -47,14 +56,6 @@ public class Comment {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
 
-    ANONYMOUS("User"),ADMIN("Admin"),TRADER("Trader");
+    ANONYMOUS("ANONYMOUS"),ADMIN("ADMIN"),TRADER("TRADER");
 
     private String name;
 
