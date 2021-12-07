@@ -1,7 +1,9 @@
 package com.leverx.dealers.service;
 
 import com.leverx.dealers.dto.CommentRequest;
+import com.leverx.dealers.dto.GameObjectRequest;
 import com.leverx.dealers.entity.Comment;
+import com.leverx.dealers.entity.Game;
 import com.leverx.dealers.entity.GameObject;
 import com.leverx.dealers.entity.User;
 import com.leverx.dealers.exceptions.NoSuchException;
@@ -34,10 +36,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void addComment(CommentRequest commentRequest, Integer userId) {
         Comment comment = new Comment();
-        Optional<User> userOptional = userRepository.findById(userId);
-        User user = userOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
-        Optional<GameObject> gameObjectOptional = gameObjectRepository.findById(commentRequest.getGameObjectId());
-        GameObject gameObject = gameObjectOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
+        User user = createUser(commentRequest);
+        GameObject gameObject = createGameObject(commentRequest);
         commentRepository.save(mapAddCommentToRequest(commentRequest, comment, user, gameObject));
         user.getComments().add(comment);
         userRepository.save(user);
@@ -65,14 +65,12 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(Integer commentId, Integer userId) throws NoSuchException {
         commentRepository.deleteById(commentId);
-
     }
 
     @Override
     public void updateComment(CommentRequest commentRequest, Integer id) {
         Comment comment = commentRepository.findCommentById(id).orElseThrow(RuntimeException::new);
-        Optional<GameObject> gameObjectOptional = gameObjectRepository.findById(commentRequest.getGameObjectId());
-        GameObject gameObject = gameObjectOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
+        GameObject gameObject = createGameObject(commentRequest);
         commentRepository.save(mapAddCommentToRequest(commentRequest, comment,gameObject));
         userRepository.getById(id).addCommentToUser(comment);
     }
@@ -101,6 +99,18 @@ public class CommentServiceImpl implements CommentService {
         comment.setRating(commentRequest.getRating());
         comment.setGameObject(gameObject);
         return comment;
+    }
+
+    private User createUser(CommentRequest commentRequest) {
+        Optional<User> userOptional = userRepository.findById(commentRequest.getUserId());
+        User user = userOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
+        return user;
+    }
+
+    private GameObject createGameObject(CommentRequest commentRequest){
+        Optional<GameObject> gameObjectOptional = gameObjectRepository.findById(commentRequest.getGameObjectId());
+        GameObject gameObject = gameObjectOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
+        return gameObject;
     }
 
 }

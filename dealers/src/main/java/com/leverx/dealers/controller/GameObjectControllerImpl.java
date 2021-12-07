@@ -1,17 +1,13 @@
 package com.leverx.dealers.controller;
 
-import com.leverx.dealers.dto.GameObjectRequest;
-import com.leverx.dealers.dto.ListGameObjectResponse;
-import com.leverx.dealers.dto.RatingDto;
+import com.leverx.dealers.dto.*;
 import com.leverx.dealers.entity.GameObject;
-import com.leverx.dealers.entity.User;
 import com.leverx.dealers.service.GameObjectService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -60,7 +56,7 @@ public class GameObjectControllerImpl implements GameObjectController {
 
     @GetMapping("/objects/top")
     @Override
-    public Map<User,Integer> getTop() {
+    public List<RatingResultDto> getTop() {
 
         return gameObjectService.getTop();
     }

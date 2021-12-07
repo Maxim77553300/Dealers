@@ -1,6 +1,7 @@
 package com.leverx.dealers.service;
 
 import com.leverx.dealers.dto.GameObjectRequest;
+import com.leverx.dealers.dto.RatingResultDto;
 import com.leverx.dealers.entity.Comment;
 import com.leverx.dealers.entity.Game;
 import com.leverx.dealers.entity.GameObject;
@@ -12,15 +13,12 @@ import com.leverx.dealers.repository.GameRepository;
 import com.leverx.dealers.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
 @Service
 public class GameObjectServiceImpl implements GameObjectService {
-
 
     private final GameObjectRepository gameObjectRepository;
 
@@ -42,7 +40,6 @@ public class GameObjectServiceImpl implements GameObjectService {
         return gameObjectRepository.findAll();
     }
 
-
     @Override
     public List<GameObject> findAllGameObjectByUser(Integer id) {
         return gameObjectRepository.findByUserId(id);
@@ -56,13 +53,9 @@ public class GameObjectServiceImpl implements GameObjectService {
     @Override
     public void addGameObject(GameObjectRequest gameObjectRequest) {
         GameObject gameObject = new GameObject();
-        Optional<User> userOptional = userRepository.findById(gameObjectRequest.getUserId());
-        User user = userOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
 
-
-        Optional<Game> gameOptional = gameRepository.findById(gameObjectRequest.getGameId());
-        Game game = gameOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
-
+        User user = createUser(gameObjectRequest);
+        Game game = createGame(gameObjectRequest);
 
         gameObjectRepository.save(mapGameObjectRequestToGameObject(gameObjectRequest, gameObject, user, game));
 
@@ -77,22 +70,17 @@ public class GameObjectServiceImpl implements GameObjectService {
     @Override
     public void editGameObject(GameObjectRequest gameObjectRequest, Integer gameObjectId) {
         GameObject gameObject = gameObjectRepository.findById(gameObjectId).orElseThrow(NoSuchException::new);
-        Optional<User> userOptional = userRepository.findById(gameObjectRequest.getUserId());
-        User user = userOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
-
-        Optional<Game> gameOptional = gameRepository.findById(gameObjectRequest.getGameId());
-        Game game = gameOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
-
+        User user = createUser(gameObjectRequest);
+        Game game = createGame(gameObjectRequest);
 
         if (user == gameObject.getUser()) {
-//            gameObjectRepository.save(mapGameObjectRequestToGameObject(gameObjectRequest, gameObject, user, game));
-//
-//            game.addGameObjectToGame(gameObject);
-//            gameRepository.save(game);
-//
-//            user.getGameObjects().add(gameObject);
-//            userRepository.save(user);
+            gameObjectRepository.save(mapGameObjectRequestToGameObject(gameObjectRequest, gameObject, user, game));
 
+            game.addGameObjectToGame(gameObject);
+            gameRepository.save(game);
+
+            user.getGameObjects().add(gameObject);
+            userRepository.save(user);
         } else {
             throw new NoSuchException();
         }
@@ -109,34 +97,16 @@ public class GameObjectServiceImpl implements GameObjectService {
                 .findCommentByGameObjectId(gameObjectId)
                 .stream().mapToInt(Comment::getRating)
                 .average().orElse(0.00));
-
     }
 
     @Override
-    public Map<User, Integer> getTop() {
-
-//        List<GameObject> allGameObjects = gameObjectRepository.findAll();
-        List<Comment> commentList = commentRepository.getRatingGameObjectList();
-        Map<User, Integer> ratingForTraders = getRatingForTraders(commentList);
-//        List<Map.Entry<User, Integer>> collect = ratingForTraders.entrySet().stream().sorted(Map.Entry.<User, Integer>comparingByValue().reversed()).collect(Collectors.toList());
-
+    public List<RatingResultDto> getTop() {
+        List<RatingResultDto> ratingForTraders = commentRepository.getRatingGameObjectList();
         return ratingForTraders;
     }
 
-    public Map<User, Integer> getRatingForTraders(List<Comment> comments) {
-        Map<User, Integer> maps = new HashMap<>();
-        for (Comment comment : comments) {
-            if (maps.containsKey(comment.getUser())) {
-                maps.put(comment.getUser(), comment.getRating() + maps.get(comment.getRating()));
-            } else {
-                maps.put(comment.getUser(), comment.getRating());
-            }
-        }
-        return maps;
-    }
 
-
-    private GameObject mapGameObjectRequestToGameObject(GameObjectRequest gameObjectRequest, GameObject gameObject, User user,Game game) {
+    private GameObject mapGameObjectRequestToGameObject(GameObjectRequest gameObjectRequest, GameObject gameObject, User user, Game game) {
         user.addGameObjectToUser(gameObject);
         game.addGameObjectToGame(gameObject);
         gameObject.setTitle(gameObjectRequest.getTitle());
@@ -145,6 +115,18 @@ public class GameObjectServiceImpl implements GameObjectService {
         gameObject.setGame(game);
         gameObject.setUser(user);
         return gameObject;
+    }
+
+    private User createUser(GameObjectRequest gameObjectRequest) {
+        Optional<User> userOptional = userRepository.findById(gameObjectRequest.getUserId());
+        User user = userOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
+        return user;
+    }
+
+    private Game createGame(GameObjectRequest gameObjectRequest) {
+        Optional<Game> gameOptional = gameRepository.findById(gameObjectRequest.getGameId());
+        Game game = gameOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
+        return game;
     }
 
 
