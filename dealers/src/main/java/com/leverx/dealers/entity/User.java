@@ -1,7 +1,10 @@
 package com.leverx.dealers.entity;
 
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,8 +23,9 @@ public class User {
     private String password;
     @Column(name = "email", nullable = false)
     private String email;
+    @CreationTimestamp
     @Column(name = "created_at")
-    private Date created_at;
+    private LocalDateTime created_at;
     @CollectionTable(name = "role",joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -92,11 +96,11 @@ public class User {
         this.email = email;
     }
 
-    public Date getCreated_at() {
+    public LocalDateTime getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Date created_at) {
+    public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
     }
 

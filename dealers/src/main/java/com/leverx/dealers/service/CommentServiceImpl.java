@@ -83,7 +83,6 @@ public class CommentServiceImpl implements CommentService {
     private Comment mapAddCommentToRequest(CommentRequest commentRequest, Comment comment,GameObject gameObject) {
 
         comment.setMessage(commentRequest.getMessage());
-        comment.setCreatedAt(commentRequest.getCreatedAt());
         comment.setApproved(commentRequest.getApproved());
         comment.setRating(commentRequest.getRating());
         comment.setGameObject(gameObject);
@@ -94,7 +93,6 @@ public class CommentServiceImpl implements CommentService {
         user.addCommentToUser(comment);
         comment.setUser(user);
         comment.setMessage(commentRequest.getMessage());
-        comment.setCreatedAt(commentRequest.getCreatedAt());
         comment.setApproved(commentRequest.getApproved());
         comment.setRating(commentRequest.getRating());
         comment.setGameObject(gameObject);

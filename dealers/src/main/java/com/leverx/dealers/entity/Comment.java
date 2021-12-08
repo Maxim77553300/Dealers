@@ -1,7 +1,7 @@
 package com.leverx.dealers.entity;
 
+
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -24,11 +24,10 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Basic(optional = false)
+
     @CreationTimestamp
     @Column(name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime createdAt; // автоматизировать выдачу времени,,,?
+    private LocalDateTime createdAt;
 
     @Column(name = "approved")
     private Boolean approved;

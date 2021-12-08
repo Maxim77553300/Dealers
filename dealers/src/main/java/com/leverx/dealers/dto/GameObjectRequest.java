@@ -19,10 +19,6 @@ public class GameObjectRequest {
     @NotNull
     private Integer userId;
     @NotNull
-    private LocalDateTime createdAt;
-    @NotNull
-    private LocalDateTime updatedAt;
-    @NotNull
     private Integer gameId;
 
 

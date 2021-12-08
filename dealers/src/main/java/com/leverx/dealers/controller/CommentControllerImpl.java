@@ -82,7 +82,6 @@ public class CommentControllerImpl implements CommentController {
         CommentRequest commentRequest = new CommentRequest();
         commentRequest.setMessage(comment.getMessage());
         commentRequest.setUserId(userId);
-        commentRequest.setCreatedAt(comment.getCreatedAt());
         commentRequest.setApproved(comment.getApproved());
         commentRequest.setRating(comment.getRating());
         commentRequest.setGameObjectId(commentRequest.getGameObjectId());

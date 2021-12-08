@@ -110,8 +110,6 @@ public class GameObjectServiceImpl implements GameObjectService {
         user.addGameObjectToUser(gameObject);
         game.addGameObjectToGame(gameObject);
         gameObject.setTitle(gameObjectRequest.getTitle());
-        gameObject.setCreatedAt(gameObjectRequest.getCreatedAt());
-        gameObject.setUpdatedAt(gameObjectRequest.getUpdatedAt());
         gameObject.setGame(game);
         gameObject.setUser(user);
         return gameObject;

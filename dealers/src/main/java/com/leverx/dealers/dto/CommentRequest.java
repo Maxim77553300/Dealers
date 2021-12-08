@@ -3,11 +3,11 @@ package com.leverx.dealers.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -17,8 +17,6 @@ public class CommentRequest {
     private String message;
     @NotNull
     private Integer userId;
-    @NotNull
-    private LocalDateTime createdAt;
     @NotNull
     private Boolean approved;
     @NotNull

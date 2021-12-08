@@ -13,8 +13,6 @@ import java.util.UUID;
 public class AddUserRequest {
 
     @NotNull
-    private UUID id;
-    @NotNull
     private String first_name;
     @NotNull
     private String last_name;
@@ -22,8 +20,6 @@ public class AddUserRequest {
     private String password;
     @NotNull
     private String email;
-    @NotNull
-    private Date created_at;
     @NotNull
     private Role role;
 
