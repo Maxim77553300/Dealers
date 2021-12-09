@@ -1,32 +1,19 @@
 package com.leverx.dealers.controller;
 
 import com.leverx.dealers.dto.AddUserRequest;
-import com.leverx.dealers.dto.RegistrationRequest;
-import com.leverx.dealers.dto.RegistrationResponse;
-import com.leverx.dealers.dto.RegistrationResultResponse;
-import com.leverx.dealers.entity.User;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.validation.Valid;
-import java.util.List;
-import java.util.UUID;
+import com.leverx.dealers.dto.CheckCodeResponse;
+import com.leverx.dealers.dto.ForgotPasswordRequest;
+import com.leverx.dealers.dto.ResetRequest;
 
 public interface UserController {
 
-    ResponseEntity<Void> addUser(AddUserRequest addUserRequest);
+    void register(AddUserRequest addUserRequest);
 
-    List<User> allUsers();
+    void confirm(String code);
 
-    RegistrationResultResponse continueRegistration(String uuid);
+    void forgotPassword(ForgotPasswordRequest request);
 
-    RegistrationResponse registration(RegistrationRequest request);
+    CheckCodeResponse checkCode(String code);
 
-//    RegistrationResponse sendEmailPassword(RegistrationRequest request)
-//
-//    RegistrationResponse resetPassword(RegistrationRequest request)
-//
-//    RegistrationResponse checkCode(UUID code);
+    void reset(ResetRequest resetRequest);
 }

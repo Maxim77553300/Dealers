@@ -16,8 +16,6 @@ public class CommentRequest {
     @NotNull
     private String message;
     @NotNull
-    private Integer userId;
-    @NotNull
     private Boolean approved;
     @NotNull
     @Max(100)

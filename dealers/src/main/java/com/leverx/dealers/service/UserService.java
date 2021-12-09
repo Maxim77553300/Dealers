@@ -1,16 +1,14 @@
 package com.leverx.dealers.service;
 
 import com.leverx.dealers.dto.AddUserRequest;
-import com.leverx.dealers.dto.RegistrationRequest;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 
 
-public interface UserService extends UserDetailsService {
+    void confirm(String code);
 
-    void addUser(AddUserRequest addUserRequest);
+    void forgotPassword(String email);
 
-    String registration(AddUserRequest addUserRequest);
+    boolean checkCode(String code);
 
-    boolean continueRegistration(String registrationUuid);
+    void reset(String code, String password);
 }

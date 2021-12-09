@@ -21,9 +21,9 @@ public class CommentControllerImpl implements CommentController {
         this.commentService = commentService;
     }
 
-    @PostMapping("/articles/{id}/comments")
+    @PostMapping("/articles/{userId}/comments")
     @Override
-    public ResponseEntity<Void> addComment(@RequestBody @Valid CommentRequest commentRequest, @PathVariable("id") Integer userId) {
+    public ResponseEntity<Void> addComment(@RequestBody @Valid CommentRequest commentRequest, @PathVariable("userId") Integer userId) {
         commentService.addComment(commentRequest, userId);
         return ResponseEntity.status(202).build();
     }
@@ -73,18 +73,17 @@ public class CommentControllerImpl implements CommentController {
 
     @PutMapping("/articles/{id}/comments")
     @Override
-    public ResponseEntity<Void> updateComment(@RequestBody CommentRequest commentRequest, @PathVariable Integer id) {
-        commentService.updateComment(commentRequest, id);
+    public ResponseEntity<Void> updateComment(@RequestBody CommentRequest commentRequest, @PathVariable("id") Integer userId) {
+        commentService.updateComment(commentRequest, userId);
         return ResponseEntity.status(202).build();
     }
 
     private CommentRequest mapGetCommentById(Comment comment, Integer userId) {
         CommentRequest commentRequest = new CommentRequest();
         commentRequest.setMessage(comment.getMessage());
-        commentRequest.setUserId(userId);
         commentRequest.setApproved(comment.getApproved());
         commentRequest.setRating(comment.getRating());
-        commentRequest.setGameObjectId(commentRequest.getGameObjectId());
+        commentRequest.setGameObjectId(comment.getGameObject().getId());
         return commentRequest;
     }
 

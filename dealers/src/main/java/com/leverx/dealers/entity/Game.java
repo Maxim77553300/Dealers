@@ -13,7 +13,6 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
     @Column(name = "name")
     private String name;
 
@@ -52,11 +51,4 @@ public class Game {
         gameObject.setGame(this);
     }
 
-//    public List<GameObject> getGameObjectList() {
-//        return gameObjectList;
-//    }
-//
-//    public void setGameObjectList(List<GameObject> gameObjectList) {
-//        this.gameObjectList = gameObjectList;
-//    }
 }

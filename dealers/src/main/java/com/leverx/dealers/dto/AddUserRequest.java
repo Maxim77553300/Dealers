@@ -20,8 +20,4 @@ public class AddUserRequest {
     private String password;
     @NotNull
     private String email;
-    @NotNull
-    private Role role;
-
-
 }

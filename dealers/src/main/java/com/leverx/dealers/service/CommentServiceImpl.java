@@ -36,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void addComment(CommentRequest commentRequest, Integer userId) {
         Comment comment = new Comment();
-        User user = createUser(commentRequest);
+        User user = createUser(commentRequest,userId);
         GameObject gameObject = createGameObject(commentRequest);
         commentRepository.save(mapAddCommentToRequest(commentRequest, comment, user, gameObject));
         user.getComments().add(comment);
@@ -92,6 +92,7 @@ public class CommentServiceImpl implements CommentService {
     private Comment mapAddCommentToRequest(CommentRequest commentRequest, Comment comment, User user,GameObject gameObject) {
         user.addCommentToUser(comment);
         comment.setUser(user);
+
         comment.setMessage(commentRequest.getMessage());
         comment.setApproved(commentRequest.getApproved());
         comment.setRating(commentRequest.getRating());
@@ -99,8 +100,8 @@ public class CommentServiceImpl implements CommentService {
         return comment;
     }
 
-    private User createUser(CommentRequest commentRequest) {
-        Optional<User> userOptional = userRepository.findById(commentRequest.getUserId());
+    private User createUser(CommentRequest commentRequest,Integer userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
         User user = userOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
         return user;
     }
