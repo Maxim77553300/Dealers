@@ -26,7 +26,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public boolean addGame(AddGameRequest addGameRequest) {
-        Game gameFromDb = gameRepository.findByGameName(addGameRequest.getName());
+        Game gameFromDb = gameRepository.findByName(addGameRequest.getName());
         if(gameFromDb != null){
             return false;
         }

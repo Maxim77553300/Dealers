@@ -65,6 +65,11 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+//    private AdminResponseDto adminApprove(AddUserRequest addUserRequest,UUID uuid){
+//        String link = LOCALHOST_URL + "/auth/confirm/" + uuid.toString();
+//
+//    }
+
     private void continueRegistration(AddUserRequest addUserRequest) {
         User user = new User();
         user.setFirstName(addUserRequest.getFirst_name());
