@@ -10,7 +10,7 @@ public interface GameService {
 
     List<Game> findAllGame();
 
-    void addGame(AddGameRequest addGameRequest);
+    boolean addGame(AddGameRequest addGameRequest);
 
     void updateGame(AddGameRequest addGameRequest,Integer id);
 

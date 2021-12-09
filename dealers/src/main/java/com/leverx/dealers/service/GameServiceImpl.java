@@ -24,8 +24,13 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void addGame(AddGameRequest addGameRequest) {
+    public boolean addGame(AddGameRequest addGameRequest) {
+        Game gameFromDb = gameRepository.findByGameName(addGameRequest.getName());
+        if(gameFromDb != null){
+            return false;
+        }
         gameRepository.save(mapAddGameRequestToGame(addGameRequest));
+        return true;
     }
 
     @Override

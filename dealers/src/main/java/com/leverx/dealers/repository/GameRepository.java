@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface GameRepository extends JpaRepository<Game, Integer> {
 
+    Game findByGameName(String gameName);
+
     @Query(value = "SELECT game.id as gameId,name , avg(rating) as gameRating FROM game LEFT JOIN " +
             "(SELECT game_object.game_id, game_object.id, avg(rating) as rating " +
             " FROM comment LEFT JOIN game_object ON comment.game_object_id = game_object.id GROUP BY game_object.id)" +
