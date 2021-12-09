@@ -1,7 +1,7 @@
 package com.leverx.dealers.service;
 
 import com.leverx.dealers.dto.GameObjectRequest;
-import com.leverx.dealers.dto.RatingResultDto;
+import com.leverx.dealers.dto.RatingResultForTradersDto;
 import com.leverx.dealers.entity.Comment;
 import com.leverx.dealers.entity.Game;
 import com.leverx.dealers.entity.GameObject;
@@ -100,8 +100,8 @@ public class GameObjectServiceImpl implements GameObjectService {
     }
 
     @Override
-    public List<RatingResultDto> getTop() {
-        List<RatingResultDto> ratingForTraders = commentRepository.getRatingGameObjectList();
+    public List<RatingResultForTradersDto> getTop() {
+        List<RatingResultForTradersDto> ratingForTraders = commentRepository.getRatingGameObjectList();
         return ratingForTraders;
     }
 

@@ -1,7 +1,7 @@
 package com.leverx.dealers.service;
 
 import com.leverx.dealers.dto.GameObjectRequest;
-import com.leverx.dealers.dto.RatingResultDto;
+import com.leverx.dealers.dto.RatingResultForTradersDto;
 import com.leverx.dealers.entity.GameObject;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public interface GameObjectService {
 
     String getRating(Integer gameObjectId);
 
-    List<RatingResultDto> getTop();
+    List<RatingResultForTradersDto> getTop();
 
 
     // ListCommentResponse getListCommentsOfAuthor(AddUserRequest user);

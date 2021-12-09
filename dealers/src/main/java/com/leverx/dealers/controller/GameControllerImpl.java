@@ -1,10 +1,10 @@
 package com.leverx.dealers.controller;
 
 import com.leverx.dealers.dto.AddGameRequest;
+import com.leverx.dealers.dto.FilterResultGameDto;
 import com.leverx.dealers.dto.ListGameResponse;
 import com.leverx.dealers.entity.Game;
 import com.leverx.dealers.service.GameService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +35,21 @@ public class GameControllerImpl implements GameController {
 
     @Override
     @PutMapping("/games/{id}")
-    public ResponseEntity<Void> updateGame(@RequestBody @Valid AddGameRequest addGameRequest,@PathVariable("id") Integer id) {
-        gameService.updateGame(addGameRequest,id);
+    public ResponseEntity<Void> updateGame(@RequestBody @Valid AddGameRequest addGameRequest, @PathVariable("id") Integer id) {
+        gameService.updateGame(addGameRequest, id);
         return ResponseEntity.status(202).build();
+    }
+
+    @Override
+    @GetMapping("/games/rating/min")
+    public List<FilterResultGameDto> findAllGamesByMinRating() {
+        return gameService.findAllGamesByMinRating();
+    }
+
+    @Override
+    @GetMapping("/games/rating/max")
+    public List<FilterResultGameDto> findAllGamesByMaxRating(){
+        return gameService.findAllGamesByMaxRating();
     }
 
     private ListGameResponse mapFindAllGame(List<Game> allGames) {

@@ -56,7 +56,7 @@ public class GameObjectControllerImpl implements GameObjectController {
 
     @GetMapping("/objects/top")
     @Override
-    public List<RatingResultDto> getTop() {
+    public List<RatingResultForTradersDto> getTop() {
 
         return gameObjectService.getTop();
     }

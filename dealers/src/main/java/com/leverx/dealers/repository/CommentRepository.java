@@ -1,7 +1,7 @@
 package com.leverx.dealers.repository;
 
 import com.leverx.dealers.entity.Comment;
-import com.leverx.dealers.dto.RatingResultDto;
+import com.leverx.dealers.dto.RatingResultForTradersDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -22,7 +22,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
             " (SELECT game_object.user_id, game_object.id, avg(rating) as rating " +
             " FROM comment LEFT JOIN game_object ON comment.game_object_id = game_object.id GROUP BY game_object.id)" +
             " as nested ON user.id = nested.user_id group by user.id ORDER BY rating DESC",nativeQuery = true)
-    List<RatingResultDto> getRatingGameObjectList();
+    List<RatingResultForTradersDto> getRatingGameObjectList();
 
 
 }

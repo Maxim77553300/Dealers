@@ -21,7 +21,7 @@ public interface GameObjectController {
 
     RatingDto getRating(Integer gameObjectId);
 
-    List<RatingResultDto> getTop();
+    List<RatingResultForTradersDto> getTop();
 
 
 }

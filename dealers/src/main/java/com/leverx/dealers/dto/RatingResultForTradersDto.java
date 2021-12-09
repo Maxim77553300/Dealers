@@ -1,6 +1,6 @@
 package com.leverx.dealers.dto;
 
-public interface RatingResultDto {
+public interface RatingResultForTradersDto {
 
     String getFirstName();
 
