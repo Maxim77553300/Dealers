@@ -30,7 +30,7 @@ public class GameControllerImpl implements GameController {
     @PostMapping("/games")
     public ResponseEntity<Void> addGame(@RequestBody @Valid AddGameRequest addGameRequest) {
         gameService.addGame(addGameRequest);
-        return ResponseEntity.status(202).build();
+        return ResponseEntity.status(200).build();
     }
 
     @Override

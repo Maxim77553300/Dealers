@@ -14,6 +14,7 @@ public class GameServiceImpl implements GameService {
 
     private final GameRepository gameRepository;
 
+
     public GameServiceImpl(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
     }
