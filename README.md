@@ -21,7 +21,7 @@ When you download this file, you will see next files and directories:
 
 
 
-config | package _____
+config | package _______
 -------|-----
 MyConfig | config class
 WebMvcConfig | config class
@@ -102,7 +102,7 @@ db.changelog | package
 -------------|--------
 db.changelog-master.yaml | liquibase file
 
-images | package _________________
+images | package ________________________
 -------| -------
 DB1.jpg | DB structure
 
@@ -115,7 +115,7 @@ estimate.md | work plan
 pom.xml | settings file
 README.md | this file
 
-test | package __________
+test | package ___________
 ------|--------
 GameServiceImplTest | Test class
 DealersApplicationTests | Test class
