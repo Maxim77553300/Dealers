@@ -20,14 +20,6 @@ You can use this version with any version of the database
 
 When you download this file, you will see next files and directories:
 
-
-
-config | package ________________________
--------|-----
-MyConfig | config class
-WebMvcConfig | config class
-WebSecurityConfig | config class
-
 controller | package_________________
 -----------|---------
 CommentController | interface
