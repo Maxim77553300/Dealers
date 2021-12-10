@@ -21,7 +21,7 @@ When you download this file, you will see next files and directories:
 
 
 
-config | package
+config | package _____
 -------|-----
 MyConfig | config class
 WebMvcConfig | config class
@@ -59,7 +59,7 @@ RatingResultForTradersDto | DTO
 RegistrationResponse | DTO
 ResetRequest | DTO
 
-email | package
+email | package _______
 -------|--------
 EmailConfig | class
 EmailProperty | class
@@ -67,7 +67,7 @@ EmailService | interface
 MockEmailService | class
 RealEmailService | class
 
-entity | package
+entity | package____________
 -------|---------
 Comment | Entity
 Game | Entity
@@ -80,14 +80,14 @@ exceptions | package
 CommentGlobalExceptionHandler | class
 NoSuchException | exception class
 
-repository | package
+repository | package  ____
 -----------|---------
 CommentRepository | repository
 GameObjectRepository | repository
 GameRepository | repository
 UserRepository | repository
 
-service | package
+service | package ___
 --------|-------
 CommentService | interface
 CommentServiceImpl | class
@@ -102,7 +102,7 @@ db.changelog | package
 -------------|--------
 db.changelog-master.yaml | liquibase file
 
-images | package
+images | package _________________
 -------| -------
 DB1.jpg | DB structure
 
@@ -115,7 +115,7 @@ estimate.md | work plan
 pom.xml | settings file
 README.md | this file
 
-test | package
+test | package __________
 ------|--------
 GameServiceImplTest | Test class
 DealersApplicationTests | Test class
