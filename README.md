@@ -59,7 +59,7 @@ RatingResultForTradersDto | DTO
 RegistrationResponse | DTO
 ResetRequest | DTO
 
-email | package _______
+email | package ___________
 -------|--------
 EmailConfig | class
 EmailProperty | class
@@ -67,7 +67,7 @@ EmailService | interface
 MockEmailService | class
 RealEmailService | class
 
-entity | package____________
+entity | package______________
 -------|---------
 Comment | Entity
 Game | Entity
