@@ -1,5 +1,10 @@
 package com.leverx.dealers.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class CommentIncorrectData {
 
     private String info;
@@ -7,11 +12,4 @@ public class CommentIncorrectData {
     public CommentIncorrectData() {
     }
 
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
 }

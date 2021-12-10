@@ -6,13 +6,10 @@ import lombok.Setter;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
 @Setter
 public class CommentRequest {
-
     @NotNull
     private String message;
     @NotNull
@@ -23,6 +20,4 @@ public class CommentRequest {
     private Integer rating;
     @NotNull
     private Integer gameObjectId;
-
-
 }

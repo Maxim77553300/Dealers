@@ -13,7 +13,6 @@ import java.util.UUID;
 @Setter
 public class GameObjectRequest {
 
-
     @NotNull
     private String title;
     @NotNull

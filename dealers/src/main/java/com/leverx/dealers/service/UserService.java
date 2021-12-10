@@ -1,7 +1,8 @@
 package com.leverx.dealers.service;
 
 import com.leverx.dealers.dto.AddUserRequest;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import com.leverx.dealers.dto.AdminResponseDto;
+
 
 
 
@@ -12,4 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
     boolean checkCode(String code);
 
     void reset(String code, String password);
+
+    AdminResponseDto confirmForAdmin(String code);
 }

@@ -15,6 +15,4 @@ import java.util.List;
 public class ListUserResponse {
     @NotNull
     List<User> listUser;
-
-
 }

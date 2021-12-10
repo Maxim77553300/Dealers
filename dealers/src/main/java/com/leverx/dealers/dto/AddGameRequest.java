@@ -9,9 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class AddGameRequest {
 
-
     @NotBlank
     private String name;
-
 
 }

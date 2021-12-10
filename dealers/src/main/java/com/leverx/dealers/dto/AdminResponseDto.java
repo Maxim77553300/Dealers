@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class AdminResponseDto {
-
     @NotNull
     @Min(0)
     @Max(1)

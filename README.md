@@ -103,9 +103,9 @@ db.changelog | package_________________
 -------------|--------
 db.changelog-master.yaml | liquibase file
 
-images | package _______________________________________
+images | package _________________________________
 -------| -------
-DB1.jpg | DB structure
+DataBase.jpg | DB structure
 
 
 DealersApplication | start app__________
@@ -135,15 +135,18 @@ Registration
 
 1) The user enters the address localhost:8080/auth/register and leaves his data in the registration form:
 
- "first_name": "Vasia",
+   "first_name": "Vasia",
 
-"last_name": "Pupkin",
+   "last_name": "Pupkin",
 
-"password": "111",
+   "password": "111",
 
-"email": "pupkin@mail.ru"
+   "email": "pupkin@mail.ru"
+   
 
-2) He receives an email with a link, upon passing to which he completes the registration at the same address
+2) User wait for moderating his data and receives the letter and path to address ./auth/register again
+
+3) He receives an email with a link, upon passing to which he completes the registration
 
 **Option 2**
 
@@ -188,7 +191,7 @@ Check code
 
 3) Сalculation of the general top traders based on their ratings of objects: /objects/top
    
- ** Option 2**
+ **Option 2**
 
 **Statistics for games**
 

@@ -23,11 +23,6 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String firstName) throws UsernameNotFoundException {
-        //???
-        return (UserDetails) userRepository.findUserByFirstName(firstName).orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
-    }
 
     @Override
     public void addUser(AddUserRequest addUserRequest) {
@@ -76,9 +71,11 @@ public class UserServiceImpl implements UserService {
         User admin = userRepository.getById(1);
         emailService.sendEmail(admin.getEmail(), addUserRequest.toString());
         emailService.sendEmail(admin.getEmail(), linkForAdmin);
+
         AWAITING_MAP.put(uuid1, admin);
     }
 
+    @Override
     public AdminResponseDto confirmForAdmin(String code) {
         UUID uuid = UUID.fromString(code);
         User admin = AWAITING_MAP.get(uuid);

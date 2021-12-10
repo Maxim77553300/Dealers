@@ -25,6 +25,4 @@ public interface GameObjectService {
     List<RatingResultForTradersDto> getTop();
 
 
-    // ListCommentResponse getListCommentsOfAuthor(AddUserRequest user);
-
 }

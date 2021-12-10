@@ -1,6 +1,9 @@
 package com.leverx.dealers.controller;
 
-import com.leverx.dealers.dto.*;
+import com.leverx.dealers.dto.GameObjectRequest;
+import com.leverx.dealers.dto.ListGameObjectResponse;
+import com.leverx.dealers.dto.RatingDto;
+import com.leverx.dealers.dto.RatingResultForTradersDto;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

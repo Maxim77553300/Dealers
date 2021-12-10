@@ -7,6 +7,4 @@ public interface FilterResultGameDto {
     String getName();
 
     Double getGameRating();
-
-
 }
