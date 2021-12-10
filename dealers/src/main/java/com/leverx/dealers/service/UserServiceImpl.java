@@ -23,6 +23,12 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+        @Override
+    public UserDetails loadUserByUsername(String firstName) throws UsernameNotFoundException {
+        //???
+        return (UserDetails) userRepository.findUserByFirstName(firstName).orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
+    }
+
     @Override
     public void addUser(AddUserRequest addUserRequest) {
         User user = new User();
