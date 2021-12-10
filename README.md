@@ -127,7 +127,76 @@ The minimum requirement for starting Dealers is your PC have Windows 10
 
 In the final version there is no restriction for the user, only a browser is required
 
-**EndPoints For you:**
+**Instructions**
+
+**Option 1**
+
+Registration
+
+1) The user enters the address localhost:8080/auth/register and leaves his data in the registration form:
+
+ "first_name": "Vasia",
+
+"last_name": "Pupkin",
+
+"password": "111",
+
+"email": "pupkin@mail.ru"
+
+2) He receives an email with a link, upon passing to which he completes the registration at the same address
+
+**Option 2**
+
+User forgot password
+
+1) User goes to the address ../auth/forgot_password and sends it in the form of an email
+   . Then he receives a letter with a link to which he follows, confirming his identity.
+   
+2) After that, the user goes to the address ../auth/reset enters the data into the form:
+   
+   "code": "fa6b257b-52b3-4718-a240-9366e4d337b5",
+   
+   "password":999
+   
+   Congratulations !!! User changed the password!!
+
+**Option 3**
+
+Check code
+
+1) You can also check the relevance of your code by reference ../auth/check_code/{code} by entering the code instead {code}
+
+
+**Option 4**
+
+**STATISTICS**
+
+**Option 1**
+
+**Statistics of Traders :**
+
+1) Creating reviews for traders game objects : /articles/{userId}/comments
+   
+   "message": "TEST",
+   
+   "rating": 100,
+   
+   "gameObjectId":7
+
+   
+2) Сalculating the trader's rating : /object/{id}/rating
+
+3) Сalculation of the general top traders based on their ratings of objects: /objects/top
+   
+ ** Option 2**
+
+**Statistics for games**
+
+1) Filter for maximum ratings of games : /games/rating/max
+2) Filter for minimum ratings of games : /games/rating/min
+
+
+   **Other EndPoints For you:**
 
  Path | Description
 ------------|-----------------------

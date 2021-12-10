@@ -49,5 +49,11 @@ public class UserControllerImpl implements UserController{
         userService.reset(request.getCode(), request.getPassword());
     }
 
+//    @Override
+//    @GetMapping("/confirm/admin/{code}")
+//    public void confirmForAdmin(@PathVariable("code") String code) {
+//        userService.confirmForAdmin(code);
+//    }
+
 
 }

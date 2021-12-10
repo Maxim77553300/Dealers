@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-        @Override
+    @Override
     public UserDetails loadUserByUsername(String firstName) throws UsernameNotFoundException {
         //???
         return (UserDetails) userRepository.findUserByFirstName(firstName).orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
@@ -71,12 +71,27 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-//    private AdminResponseDto adminApprove(AddUserRequest addUserRequest,UUID uuid){
-//        String link = LOCALHOST_URL + "/auth/confirm/" + uuid.toString();
-//
-//    }
+    private void sendRequestToAdmin(AddUserRequest addUserRequest, String linkForAdmin, UUID uuid1) {
 
-    private void continueRegistration(AddUserRequest addUserRequest) {
+        User admin = userRepository.getById(1);
+        emailService.sendEmail(admin.getEmail(), addUserRequest.toString());
+        emailService.sendEmail(admin.getEmail(), linkForAdmin);
+        AWAITING_MAP.put(uuid1, admin);
+    }
+
+    public AdminResponseDto confirmForAdmin(String code) {
+        UUID uuid = UUID.fromString(code);
+        User admin = AWAITING_MAP.get(uuid);
+        if (admin != null) {
+            AWAITING_MAP.remove(uuid);
+            adminResponseDto.setAdminResponse(1);
+            return adminResponseDto;
+        }
+        return adminResponseDto;
+    }
+
+
+    private User createUser(AddUserRequest addUserRequest) {
         User user = new User();
         user.setFirstName(addUserRequest.getFirst_name());
         user.setLastName(addUserRequest.getLast_name());

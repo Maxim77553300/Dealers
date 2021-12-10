@@ -14,5 +14,5 @@ public class AdminResponseDto {
     @NotNull
     @Min(0)
     @Max(1)
-    private Integer adminResponse;
+    private Integer adminResponse = 0;
 }
