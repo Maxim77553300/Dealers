@@ -21,13 +21,13 @@ When you download this file, you will see next files and directories:
 
 
 
-config | package _______
+config | package ______________________
 -------|-----
 MyConfig | config class
 WebMvcConfig | config class
 WebSecurityConfig | config class
 
-controller | package
+controller | package_________________
 -----------|---------
 CommentController | interface
 CommentControllerImpl | class
@@ -38,7 +38,7 @@ GameObjectControllerImpl | class
 UserController | interface
 UserControllerImpl | class
 
-dto | package
+dto | package ________________
 ----|---------
 AddGameRequest | DTO
 AddUserRequest | DTO
@@ -59,7 +59,7 @@ RatingResultForTradersDto | DTO
 RegistrationResponse | DTO
 ResetRequest | DTO
 
-email | package ___________
+email | package _______________________
 -------|--------
 EmailConfig | class
 EmailProperty | class
@@ -67,7 +67,7 @@ EmailService | interface
 MockEmailService | class
 RealEmailService | class
 
-entity | package______________
+entity | package____________________________
 -------|---------
 Comment | Entity
 Game | Entity
@@ -75,19 +75,19 @@ GameObject | Entity
 Role | enum
 User | Entity
 
-exceptions | package
+exceptions | package___________
 -----------|----------
 CommentGlobalExceptionHandler | class
 NoSuchException | exception class
 
-repository | package  ____
+repository | package  ___________________
 -----------|---------
 CommentRepository | repository
 GameObjectRepository | repository
 GameRepository | repository
 UserRepository | repository
 
-service | package ___
+service | package __________________
 --------|-------
 CommentService | interface
 CommentServiceImpl | class
@@ -98,16 +98,16 @@ GameServiceImpl | class
 UserService | interface
 UserService | class
 
-db.changelog | package
+db.changelog | package_________________
 -------------|--------
 db.changelog-master.yaml | liquibase file
 
-images | package ________________________
+images | package _______________________________
 -------| -------
 DB1.jpg | DB structure
 
 
-DealersApplication | start app
+DealersApplication | start app__________
 -------------------|---------
 application.properties | file properties
 liquibase-maven-plugin.properties | file liquibase
@@ -115,7 +115,7 @@ estimate.md | work plan
 pom.xml | settings file
 README.md | this file
 
-test | package ___________
+test | package __________________
 ------|--------
 GameServiceImplTest | Test class
 DealersApplicationTests | Test class
