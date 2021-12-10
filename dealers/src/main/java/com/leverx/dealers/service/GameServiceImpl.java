@@ -20,14 +20,14 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<Game> findAllGame() {
+    public List<Game> findAllGames() {
         return gameRepository.findAll();
     }
 
     @Override
     public boolean addGame(AddGameRequest addGameRequest) {
         Game gameFromDb = gameRepository.findByName(addGameRequest.getName());
-        if(gameFromDb != null){
+        if (gameFromDb != null) {
             return false;
         }
         gameRepository.save(mapAddGameRequestToGame(addGameRequest));
@@ -35,20 +35,20 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void updateGame(AddGameRequest addGameRequest,Integer id) {
+    public void updateGame(AddGameRequest addGameRequest, Integer id) {
         Game game = gameRepository.findById(id).orElseThrow(NoSuchException::new);
         game.setName(addGameRequest.getName());
         gameRepository.save(game);
     }
 
     @Override
-    public List<FilterResultGameDto> findAllGamesByMinRating(){
+    public List<FilterResultGameDto> findAllGamesByMinRating() {
         List<FilterResultGameDto> filterResultGameDtoList = gameRepository.filterGamesByMinRating();
         return filterResultGameDtoList;
     }
 
     @Override
-    public List<FilterResultGameDto> findAllGamesByMaxRating(){
+    public List<FilterResultGameDto> findAllGamesByMaxRating() {
         List<FilterResultGameDto> filterResultGameDtoList = gameRepository.filterGamesByMaxRating();
         return filterResultGameDtoList;
     }

@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface GameRepository extends JpaRepository<Game, Integer> {
 
+    @Query(value = "SELECT game.id, game.name FROM game ",nativeQuery = true)
+    List<Game> findAll();
+
     Game findByName(String gameName);
 
     @Query(value = "SELECT game.id as gameId,name , avg(rating) as gameRating FROM game LEFT JOIN " +

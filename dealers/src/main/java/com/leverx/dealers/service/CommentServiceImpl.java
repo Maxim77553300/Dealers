@@ -1,9 +1,7 @@
 package com.leverx.dealers.service;
 
 import com.leverx.dealers.dto.CommentRequest;
-import com.leverx.dealers.dto.GameObjectRequest;
 import com.leverx.dealers.entity.Comment;
-import com.leverx.dealers.entity.Game;
 import com.leverx.dealers.entity.GameObject;
 import com.leverx.dealers.entity.User;
 import com.leverx.dealers.exceptions.NoSuchException;
@@ -36,10 +34,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void addComment(CommentRequest commentRequest, Integer userId) {
         Comment comment = new Comment();
-        User user = createUser(commentRequest,userId);
+        User user = createUser(commentRequest, userId);
         GameObject gameObject = createGameObject(commentRequest);
         commentRepository.save(mapAddCommentToRequest(commentRequest, comment, user, gameObject));
-        user.getComments().add(comment);
+        user.addCommentToUser(comment);
+//        user.getComments().add(comment);
         userRepository.save(user);
 
     }
@@ -71,7 +70,7 @@ public class CommentServiceImpl implements CommentService {
     public void updateComment(CommentRequest commentRequest, Integer id) {
         Comment comment = commentRepository.findCommentById(id).orElseThrow(RuntimeException::new);
         GameObject gameObject = createGameObject(commentRequest);
-        commentRepository.save(mapAddCommentToRequest(commentRequest, comment,gameObject));
+        commentRepository.save(mapAddCommentToRequest(commentRequest, comment, gameObject));
         userRepository.getById(id).addCommentToUser(comment);
     }
 
@@ -80,7 +79,7 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findAll();
     }
 
-    private Comment mapAddCommentToRequest(CommentRequest commentRequest, Comment comment,GameObject gameObject) {
+    private Comment mapAddCommentToRequest(CommentRequest commentRequest, Comment comment, GameObject gameObject) {
 
         comment.setMessage(commentRequest.getMessage());
         comment.setApproved(commentRequest.getApproved());
@@ -89,7 +88,7 @@ public class CommentServiceImpl implements CommentService {
         return comment;
     }
 
-    private Comment mapAddCommentToRequest(CommentRequest commentRequest, Comment comment, User user,GameObject gameObject) {
+    private Comment mapAddCommentToRequest(CommentRequest commentRequest, Comment comment, User user, GameObject gameObject) {
         user.addCommentToUser(comment);
         comment.setUser(user);
 
@@ -100,13 +99,13 @@ public class CommentServiceImpl implements CommentService {
         return comment;
     }
 
-    private User createUser(CommentRequest commentRequest,Integer userId) {
+    private User createUser(CommentRequest commentRequest, Integer userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         User user = userOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
         return user;
     }
 
-    private GameObject createGameObject(CommentRequest commentRequest){
+    private GameObject createGameObject(CommentRequest commentRequest) {
         Optional<GameObject> gameObjectOptional = gameObjectRepository.findById(commentRequest.getGameObjectId());
         GameObject gameObject = gameObjectOptional.orElseThrow((Supplier<RuntimeException>) () -> new NoSuchException());
         return gameObject;

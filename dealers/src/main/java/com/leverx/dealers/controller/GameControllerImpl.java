@@ -23,7 +23,7 @@ public class GameControllerImpl implements GameController {
     @Override
     @GetMapping("/games")
     public ListGameResponse findAllGame() {
-        return mapFindAllGame(gameService.findAllGame());
+        return mapFindAllGame(gameService.findAllGames());
     }
 
     @Override
@@ -53,6 +53,8 @@ public class GameControllerImpl implements GameController {
     }
 
     private ListGameResponse mapFindAllGame(List<Game> allGames) {
-        return ListGameResponse.builder().games(allGames).build();
+        ListGameResponse listGameResponse = new ListGameResponse();
+        listGameResponse.setGames(allGames);
+        return listGameResponse;
     }
 }

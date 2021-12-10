@@ -1,6 +1,7 @@
 package com.leverx.dealers.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Comment {
     @Column(name = "message")
     private String message;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
@@ -35,6 +37,8 @@ public class Comment {
     @Column(name = "rating")
     private Integer rating;
 
+
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "game_object_id")
     private GameObject gameObject;

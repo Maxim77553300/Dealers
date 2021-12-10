@@ -1,12 +1,10 @@
 package com.leverx.dealers.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +26,13 @@ public class User {
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-    @CollectionTable(name = "role",joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    @JsonIgnore
+    @Transient
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Comment> comments;
 
     public List<GameObject> getGameObjects() {
@@ -43,8 +42,9 @@ public class User {
     public void setGameObjects(List<GameObject> gameObjects) {
         this.gameObjects = gameObjects;
     }
-
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    @JsonIgnore
+    @Transient
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<GameObject> gameObjects;
 
     public List<Comment> getComments() {
@@ -97,11 +97,11 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    @Type(type= "org.hibernate.type.LocalDateTimeType")
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
-    @Type(type= "org.hibernate.type.LocalDateTimeType")
+
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
@@ -115,8 +115,8 @@ public class User {
     }
 
     // метод для OneToMany -BiDirectional
-    public void addCommentToUser(Comment comment){
-        if(comments==null){
+    public void addCommentToUser(Comment comment) {
+        if (comments == null) {
             comments = new ArrayList<>();
         }
         comments.add(comment);
@@ -124,8 +124,8 @@ public class User {
     }
 
     // метод для OneToMany -BiDirectional
-    public void addGameObjectToUser(GameObject gameObject){
-        if(gameObjects==null){
+    public void addGameObjectToUser(GameObject gameObject) {
+        if (gameObjects == null) {
             gameObjects = new ArrayList<>();
         }
         gameObjects.add(gameObject);

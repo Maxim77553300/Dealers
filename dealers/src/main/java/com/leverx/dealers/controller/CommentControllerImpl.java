@@ -29,7 +29,7 @@ public class CommentControllerImpl implements CommentController {
     }
 
 
-    @GetMapping("users/{userId}/comments/{commentId}")
+    @GetMapping("/users/{userId}/comments/{commentId}")
     @Override
     public CommentRequest getCommentById(@PathVariable("userId") Integer userId, @PathVariable("commentId") Integer commentId) {
         Comment comment = commentService.getCommentById(commentId);
@@ -48,7 +48,7 @@ public class CommentControllerImpl implements CommentController {
         return listCommentResponse;
     }
 
-    @GetMapping("users/{userId}/comments")
+    @GetMapping("/users/{userId}/comments")
     @Override
     public ListCommentResponse getAllCommentsByUserId(@PathVariable("userId") Integer id) {
         List<Comment> commentList = commentService.findAllCommentByUserId(id);
@@ -64,7 +64,7 @@ public class CommentControllerImpl implements CommentController {
     }
 
 
-    @DeleteMapping("users/{userId}/comments/{commentId}")
+    @DeleteMapping("/users/{userId}/comments/{commentId}")
     @Override
     public ResponseEntity<Void> deleteComment(@PathVariable("userId") Integer userId, @PathVariable("commentId") Integer commentId) {
         commentService.deleteComment(commentId, userId);

@@ -1,6 +1,8 @@
 package com.leverx.dealers.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,8 @@ public class Game {
     @Column(name = "name")
     private String name;
 
+    @JsonIgnore
+    @Transient
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "game")
     private List<GameObject> gameObjectList;
 

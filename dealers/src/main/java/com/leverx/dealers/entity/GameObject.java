@@ -1,6 +1,7 @@
 package com.leverx.dealers.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -28,14 +29,18 @@ public class GameObject {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "game_id")
     private Game game;
 
+    @JsonIgnore
+    @Transient
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "gameObject")
     private List<Comment> commentList;
 

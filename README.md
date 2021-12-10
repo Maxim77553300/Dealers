@@ -116,7 +116,7 @@ estimate.md | work plan
 pom.xml | settings file
 README.md | this file
 
-test | package _______________________
+test | package _____________________
 ------|--------
 GameServiceImplTest | Test class
 DealersApplicationTests | Test class

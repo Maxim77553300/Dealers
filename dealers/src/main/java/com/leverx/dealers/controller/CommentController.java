@@ -16,8 +16,6 @@ public interface CommentController {
 
     ListCommentResponse getAllComments();
 
-
-
     ResponseEntity<Void> deleteComment(Integer userId,Integer commentId);
 
     ResponseEntity<Void> updateComment(CommentRequest commentRequest, Integer integer);
