@@ -102,7 +102,7 @@ db.changelog | package_________________
 -------------|--------
 db.changelog-master.yaml | liquibase file
 
-images | package _________________________________
+images | package _______________________________________
 -------| -------
 DB1.jpg | DB structure
 
