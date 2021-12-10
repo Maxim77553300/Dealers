@@ -1,7 +1,19 @@
 package com.leverx.dealers.entity;
 
-public enum Role {
+import org.springframework.security.core.GrantedAuthority;
 
-    ANONYMOUS,ADMIN,TRADER
+public enum Role implements GrantedAuthority {
 
+    ANONYMOUS("ANONYMOUS"),ADMIN("ADMIN"),TRADER("TRADER");
+
+    private String name;
+
+    Role(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getAuthority() {
+        return null;
+    }
 }

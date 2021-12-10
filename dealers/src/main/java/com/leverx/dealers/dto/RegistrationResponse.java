@@ -1,18 +1,18 @@
 package com.leverx.dealers.dto;
 
-import com.leverx.dealers.entity.User;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
-
 
 @Getter
 @Setter
-@ToString
-public class ListUserResponse {
+public class RegistrationResponse {
+
     @NotNull
-    List<User> listUser;
+    String link;
+
+    public RegistrationResponse(@NotNull String link) {
+        this.link = link;
+    }
 }
