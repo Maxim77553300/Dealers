@@ -23,7 +23,6 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-
     @Override
     public void addUser(AddUserRequest addUserRequest) {
         User user = new User();
