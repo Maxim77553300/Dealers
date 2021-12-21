@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-public class UserControllerImpl implements UserController{
+@RequestMapping("/auth")
+public class UserControllerImpl implements UserController {
 
     private final UserService userService;
 
@@ -30,7 +31,6 @@ public class UserControllerImpl implements UserController{
         userService.confirm(code);
     }
 
-    @GetMapping("/users")
     @Override
     @PostMapping("/forgot_password")
     public void forgotPassword(@RequestBody @Valid ForgotPasswordRequest emailDto) {
