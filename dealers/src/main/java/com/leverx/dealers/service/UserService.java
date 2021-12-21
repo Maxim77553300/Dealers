@@ -4,7 +4,9 @@ import com.leverx.dealers.dto.AddUserRequest;
 import com.leverx.dealers.dto.AdminResponseDto;
 
 
+public interface UserService {
 
+    void registration(AddUserRequest addUserRequest);
 
     void confirm(String code);
 
